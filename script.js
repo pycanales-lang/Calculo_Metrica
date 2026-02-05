@@ -1,29 +1,44 @@
 // script.js
-document.getElementById('btn-calcular').addEventListener('click', () => {
-    let totalVariable = 0;
-    let htmlDetalle = "<ul>";
 
-    // Recorremos los productos definidos en el CONFIG
-    for (const clave in CONFIG.PRODUCTOS) {
-        const producto = CONFIG.PRODUCTOS[clave];
+const calcular = () => {
+    try {
+        let totalVariable = 0;
+        let htmlDetalle = "<ul>";
+
+        for (const clave in CONFIG.PRODUCTOS) {
+            const producto = CONFIG.PRODUCTOS[clave];
+            const inputElement = document.getElementById(`input-${clave}`);
+            
+            if (!inputElement) {
+                console.error(`No se encontró el input: input-${clave}`);
+                continue;
+            }
+
+            const cantidad = parseFloat(inputElement.value) || 0;
+
+            // Fórmulas
+            const ventaPonderada = cantidad * producto.valorPromedio * producto.porcentajePago;
+            const comisionProducto = ventaPonderada * producto.comisionNivel;
+
+            totalVariable += comisionProducto;
+
+            htmlDetalle += `
+                <li style="display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px solid #eee;">
+                    <span>${producto.nombre}:</span>
+                    <strong>$${comisionProducto.toLocaleString('es-AR', {minimumFractionDigits: 2})}</strong>
+                </li>`;
+        }
+
+        htmlDetalle += "</ul>";
+
+        document.getElementById('detalle-productos').innerHTML = htmlDetalle;
+        document.getElementById('total-variable').innerText = `$${totalVariable.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
         
-        // 1. Obtener cantidad vendida desde el HTML
-        const cantidad = parseFloat(document.getElementById(`input-${clave}`).value) || 0;
-
-        // 2. Aplicar lógica de negocio
-        const ventaPonderada = cantidad * producto.valorPromedio * producto.porcentajePago;
-        const comisionProducto = ventaPonderada * producto.comisionNivel;
-
-        // 3. Acumular al total
-        totalVariable += comisionProducto;
-
-        // 4. Formatear detalle para el usuario
-        htmlDetalle += `<li>${producto.nombre}: $${comisionProducto.toLocaleString('es-AR')}</li>`;
+    } catch (error) {
+        alert("Error en el cálculo. Revisá la consola (F12)");
+        console.error(error);
     }
+};
 
-    htmlDetalle += "</ul>";
-
-    // Mostrar resultados en el HTML
-    document.getElementById('detalle-productos').innerHTML = htmlDetalle;
-    document.getElementById('total-variable').innerText = `$${totalVariable.toLocaleString('es-AR')}`;
-});
+// Asignar el evento al botón
+document.getElementById('btn-calcular').onclick = calcular;
