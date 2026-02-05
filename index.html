@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Comisiones</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Calculadora de Comisiones</h1>
+
+  <section>
+    <h2>Ventas</h2>
+
+    <label>B2B:
+      <input type="number" id="b2b" value="0">
+    </label><br>
+
+    <label>Hogar:
+      <input type="number" id="hogar" value="0">
+    </label><br>
+
+    <label>Pospago:
+      <input type="number" id="pospago" value="0">
+    </label><br>
+
+    <label>Prepago:
+      <input type="number" id="prepago" value="0">
+    </label><br>
+  </section>
+
+  <button onclick="calcular()">Calcular</button>
+
+  <section>
+    <h2>Resultado</h2>
+    <p id="resultado">–</p>
+  </section>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
