@@ -5,6 +5,7 @@
   <title>Calculadora de Comisiones</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <h1>Calculadora de Comisiones</h1>
@@ -12,22 +13,29 @@
   <section>
     <h2>Ventas</h2>
 
-    <label>B2B:
+    <label>
+      B2B:
       <input type="number" id="b2b" value="0" min="0">
-    </label><br><br>
+    </label>
+    <br><br>
 
-    <label>Hogar:
+    <label>
+      Hogar:
       <input type="number" id="hogar" value="0" min="0">
-    </label><br><br>
+    </label>
+    <br><br>
 
-    <label>Pospago:
+    <label>
+      Pospago:
       <input type="number" id="pospago" value="0" min="0">
-    </label><br><br>
+    </label>
+    <br><br>
 
-    <label>Prepago:
+    <label>
+      Prepago:
       <input type="number" id="prepago" value="0" min="0">
-    </label><br><br>
-
+    </label>
+    <br><br>
   </section>
 
   <button onclick="calcular()">Calcular</button>
@@ -37,7 +45,7 @@
     <p id="resultado">–</p>
   </section>
 
-  <!-- ⚠️ ORDEN IMPORTANTE -->
+  <!-- Scripts SIEMPRE al final -->
   <script src="config.js"></script>
   <script src="script.js"></script>
 
