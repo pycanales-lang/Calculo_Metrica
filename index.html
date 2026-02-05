@@ -10,19 +10,35 @@
     <h1>Calculadora de Comisiones</h1>
     
     <div id="form-container">
-        <h3>Ingreso de Ventas</h3>
+        <h3>Ingreso de Unidades Vendidas</h3>
+        
         <div>
-            <label for="ventas-pospago">Ventas Pospago:</label>
-            <input type="number" id="ventas-pospago" placeholder="0" min="0">
+            <label>Pospago:</label>
+            <input type="number" id="input-POSPAGO" placeholder="0" min="0">
         </div>
-        <button id="btn-calcular">Probar Conexión</button>
+        <div>
+            <label>B2B:</label>
+            <input type="number" id="input-B2B" placeholder="0" min="0">
+        </div>
+        <div>
+            <label>Hogar:</label>
+            <input type="number" id="input-HOGAR" placeholder="0" min="0">
+        </div>
+        <div>
+            <label>Prepago:</label>
+            <input type="number" id="input-PREPAGO" placeholder="0" min="0">
+        </div>
+
+        <br>
+        <button id="btn-calcular">Calcular Comisión Base</button>
     </div>
 
     <hr>
 
     <div id="resultado-container">
-        <h3>Resultado:</h3>
-        <p id="output">Esperando acción...</p>
+        <h3>Resumen de Comisión:</h3>
+        <div id="detalle-productos"></div>
+        <p><strong>Total Variable: <span id="total-variable">$0</span></strong></p>
     </div>
 
     <script src="config.js"></script>
