@@ -13,20 +13,21 @@
     <h2>Ventas</h2>
 
     <label>B2B:
-      <input type="number" id="b2b" value="0">
-    </label><br>
+      <input type="number" id="b2b" value="0" min="0">
+    </label><br><br>
 
     <label>Hogar:
-      <input type="number" id="hogar" value="0">
-    </label><br>
+      <input type="number" id="hogar" value="0" min="0">
+    </label><br><br>
 
     <label>Pospago:
-      <input type="number" id="pospago" value="0">
-    </label><br>
+      <input type="number" id="pospago" value="0" min="0">
+    </label><br><br>
 
     <label>Prepago:
-      <input type="number" id="prepago" value="0">
-    </label><br>
+      <input type="number" id="prepago" value="0" min="0">
+    </label><br><br>
+
   </section>
 
   <button onclick="calcular()">Calcular</button>
@@ -36,9 +37,9 @@
     <p id="resultado">–</p>
   </section>
 
-<script src="config.js"></script>
-<script src="script.js"></script>
-
+  <!-- ⚠️ ORDEN IMPORTANTE -->
+  <script src="config.js"></script>
+  <script src="script.js"></script>
 
 </body>
 </html>
