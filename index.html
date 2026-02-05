@@ -3,74 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Comisiones Mobile</title>
+    <title>Calculadora Vendedores</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <header class="app-header">
-            <h1>Mis Comisiones</h1>
-            <span class="badge">Ventas PY</span>
-        </header>
-        
-        <div class="card selector-card">
-            <div class="input-field">
-                <label>Esquema de Trabajo</label>
-                <select id="select-esquema">
-                    <option value="STAFF">Personal Staff</option>
-                    <option value="CORRETAJE">Corretaje</option>
-                </select>
-            </div>
-            <div class="input-field">
-                <label>Nivel Actual</label>
-                <select id="select-nivel">
-                    <option value="M0">Nivel M0</option>
-                    <option value="M1">Nivel M1</option>
-                    <option value="M2">Nivel M2</option>
-                    <option value="M3">Nivel M3</option>
-                    <option value="M4">Nivel M4</option>
-                </select>
+    <div class="container">
+        <h1>Comisiones PY</h1>
+
+        <div class="card">
+            <span class="label-title">Configuración</span>
+            <div class="input-row">
+                <div class="field">
+                    <label>Esquema</label>
+                    <select id="select-esquema">
+                        <option value="STAFF">Staff</option>
+                        <option value="CORRETAJE">Corretaje</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Nivel</label>
+                    <select id="select-nivel">
+                        <option value="M0">M0</option>
+                        <option value="M1">M1</option>
+                        <option value="M2">M2</option>
+                        <option value="M3">M3</option>
+                        <option value="M4">M4</option>
+                    </select>
+                </div>
             </div>
         </div>
 
-        <div class="card products-card">
-            <h3>Unidades Vendidas</h3>
-            <div class="grid-inputs">
-                <div class="input-field">
+        <div class="card">
+            <span class="label-title">Unidades Vendidas</span>
+            <div class="input-row">
+                <div class="field">
                     <label>B2B</label>
-                    <input type="number" id="input-B2B" pattern="\[0-9]*" inputmode="numeric" placeholder="0">
+                    <input type="number" id="input-B2B" inputmode="numeric" placeholder="0">
                 </div>
-                <div class="input-field">
+                <div class="field">
                     <label>Hogar</label>
-                    <input type="number" id="input-HOGAR" pattern="\[0-9]*" inputmode="numeric" placeholder="0">
+                    <input type="number" id="input-HOGAR" inputmode="numeric" placeholder="0">
                 </div>
-                <div class="input-field">
+            </div>
+            <div class="input-row">
+                <div class="field">
                     <label>Pospago</label>
-                    <input type="number" id="input-POSPAGO" pattern="\[0-9]*" inputmode="numeric" placeholder="0">
+                    <input type="number" id="input-POSPAGO" inputmode="numeric" placeholder="0">
                 </div>
-                <div class="input-field">
+                <div class="field">
                     <label>Prepago</label>
-                    <input type="number" id="input-PREPAGO" pattern="\[0-9]*" inputmode="numeric" placeholder="0">
+                    <input type="number" id="input-PREPAGO" inputmode="numeric" placeholder="0">
                 </div>
             </div>
         </div>
 
-        <div class="actions">
-            <button id="btn-calcular" class="btn-main">CALCULAR</button>
-            <button id="btn-limpiar" class="btn-link">Borrar datos</button>
-        </div>
+        <button id="btn-calcular" class="btn-calc">Calcular Ahora</button>
+        <button id="btn-limpiar" class="btn-clear">Limpiar datos</button>
 
-        <div id="resultado-card" class="result-area hidden">
-            <div class="result-card">
-                <h3>Resumen de Cobro</h3>
-                <div id="detalle-productos" class="details-list"></div>
-                <div class="total-display">
-                    <span class="total-label">TOTAL ESTIMADO</span>
-                    <span id="total-variable" class="total-amount">Gs. 0</span>
-                </div>
+        <div id="resultado-card" class="card res-card hidden">
+            <span class="label-title">Detalle de Cobro</span>
+            <div id="detalle-productos"></div>
+            <div class="total-row">
+                <strong>Total:</strong>
+                <span id="total-variable">Gs. 0</span>
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
