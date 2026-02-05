@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // CONFIGURACIÓN REAL EXTRAÍDA DEL EXCEL (STAFF)
     const CONFIG = {
         PRODUCTOS: {
             B2B:     { nombre: "B2B",     valor: 140000, pago: 0.65 },
@@ -8,13 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
             POSPAGO: { nombre: "Pospago", valor: 75000,  pago: 0.65 },
             PREPAGO: { nombre: "Prepago", valor: 25000,  pago: 0.60 }
         },
-        // Tasas de comisión según el nivel (Basado en la columna B del Excel)
         NIVELES: {
-            "M0": 0.15, // 15%
-            "M1": 0.17, // 17%
-            "M2": 0.20, // 20%
-            "M3": 0.23, // 23%
-            "M4": 0.25  // 25%
+            "M0": 0.15,
+            "M1": 0.17,
+            "M2": 0.20,
+            "M3": 0.23,
+            "M4": 0.25
         }
     };
 
@@ -31,15 +29,18 @@ document.addEventListener('DOMContentLoaded', function() {
             for (const key in CONFIG.PRODUCTOS) {
                 const p = CONFIG.PRODUCTOS[key];
                 const input = document.getElementById(`input-${key}`);
-                const cantidad = parseFloat(input.value) || 0;
+                
+                // Esta es la "PRODUCTIVIDAD" (Cantidad de ventas ingresadas)
+                const productividad = parseFloat(input.value) || 0;
 
-                // FÓRMULA EXCEL: Unidades * Valor Promedio * % Pagos * % Comisión Nivel
-                const resultado = Math.round(cantidad * p.valor * p.pago * tasaComision);
+                // FÓRMULA CORREGIDA: (PRODUCTIVIDAD * VALOR PROMEDIO * % PAGOS) * NIVEL
+                const resultado = Math.round((productividad * p.valor * p.pago) * tasaComision);
+                
                 acumuladoTotal += resultado;
 
                 const resultadoFmt = resultado.toLocaleString('es-PY', { minimumFractionDigits: 0 });
 
-                listaHtml += `<li style="display:flex; justify-content:space-between; border-bottom:1px solid #ccc; padding:5px 0;">
+                listaHtml += `<li style="display:flex; justify-content:space-between; border-bottom:1px solid #ccc; padding:8px 0;">
                                 <span>${p.nombre}:</span> 
                                 <strong>Gs. ${resultadoFmt}</strong>
                               </li>`;
