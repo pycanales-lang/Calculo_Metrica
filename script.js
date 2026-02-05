@@ -21,18 +21,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    function obtenerViatico(escala) {
-        if (escala < 6) return 0;
-        if (escala >= 15) return 1700000;
-        return 800000 + ((escala - 6) * 100000);
+    const btnCalcular = document.getElementById('btn-calcular');
+    const btnLimpiar = document.getElementById('btn-limpiar');
+
+    // BOTÓN LIMPIAR
+    if (btnLimpiar) {
+        btnLimpiar.onclick = function() {
+            document.querySelectorAll('input').forEach(i => i.value = "");
+            document.getElementById('resultado-card').classList.add('result-hidden');
+            window.scrollTo(0,0);
+        };
     }
 
-    const boton = document.getElementById('btn-calcular');
-
-    if (boton) {
-        boton.onclick = function() {
-            // 1. Captura de Inputs
-            const vB2B = parseFloat(document.getElementById('input-POSPAGO').previousElementSibling ? document.getElementById('input-B2B').value : 0) || 0;
+    // BOTÓN CALCULAR
+    if (btnCalcular) {
+        btnCalcular.onclick = function() {
+            const vB2B = parseFloat(document.getElementById('input-B2B').value) || 0;
             const vHog = parseFloat(document.getElementById('input-HOGAR').value) || 0;
             const vPos = parseFloat(document.getElementById('input-POSPAGO').value) || 0;
             const vPre = parseFloat(document.getElementById('input-PREPAGO').value) || 0;
@@ -44,63 +48,48 @@ document.addEventListener('DOMContentLoaded', function() {
             let listaHtml = "<ul>";
             let tasaFinal = 0;
 
-            // 2. LÓGICA STAFF
             if (esquema === "STAFF") {
                 tasaFinal = CONFIG.NIVELES_STAFF[nivelSel];
-                
-                // B2B
-                let rB2B = Math.round(vB2B * CONFIG.PRODUCTOS.B2B.valor * CONFIG.PRODUCTOS.B2B.pago * tasaFinal);
-                // Hogar
-                let rHog = Math.round(vHog * CONFIG.PRODUCTOS.HOGAR.valor * CONFIG.PRODUCTOS.HOGAR.pago * tasaFinal);
-                // Pospago
-                let rPos = Math.round(vPos * CONFIG.PRODUCTOS.POSPAGO.valor * CONFIG.PRODUCTOS.POSPAGO.pago * tasaFinal);
-                // Prepago
-                let rPre = Math.round(vPre * CONFIG.PRODUCTOS.PREPAGO.valor * CONFIG.PRODUCTOS.PREPAGO.pago * tasaFinal);
-
-                acumuladoVariable = rB2B + rHog + rPos + rPre;
-
-                listaHtml += `<li>B2B: <strong>Gs. ${rB2B.toLocaleString('es-PY')}</strong></li>`;
-                listaHtml += `<li>Hogar: <strong>Gs. ${rHog.toLocaleString('es-PY')}</strong></li>`;
-                listaHtml += `<li>Pospago: <strong>Gs. ${rPos.toLocaleString('es-PY')}</strong></li>`;
-                listaHtml += `<li>Prepago: <strong>Gs. ${rPre.toLocaleString('es-PY')}</strong></li>`;
-
-            } 
-            // 3. LÓGICA CORRETAJE
-            else {
-                const escalaCorretaje = vB2B + vHog;
-                const tieneLlave = (escalaCorretaje > 0);
-                
-                let idx = 0;
-                if (escalaCorretaje >= 9 && escalaCorretaje <= 15) idx = 1;
-                else if (escalaCorretaje >= 16) idx = 2;
-                
+                const res = {
+                    B2B: Math.round(vB2B * CONFIG.PRODUCTOS.B2B.valor * CONFIG.PRODUCTOS.B2B.pago * tasaFinal),
+                    Hogar: Math.round(vHog * CONFIG.PRODUCTOS.HOGAR.valor * CONFIG.PRODUCTOS.HOGAR.pago * tasaFinal),
+                    Pospago: Math.round(vPos * CONFIG.PRODUCTOS.POSPAGO.valor * CONFIG.PRODUCTOS.POSPAGO.pago * tasaFinal),
+                    Prepago: Math.round(vPre * CONFIG.PRODUCTOS.PREPAGO.valor * CONFIG.PRODUCTOS.PREPAGO.pago * tasaFinal)
+                };
+                for (const k in res) {
+                    acumuladoVariable += res[k];
+                    listaHtml += `<li><span>${k}</span><strong>Gs. ${res[k].toLocaleString('es-PY')}</strong></li>`;
+                }
+            } else {
+                const escala = vB2B + vHog;
+                const tieneLlave = (escala > 0);
+                let idx = (escala >= 16) ? 2 : (escala >= 9 ? 1 : 0);
                 tasaFinal = CONFIG.PESOS_CORRETAJE[nivelSel][idx];
 
-                let rB2B = Math.round(vB2B * CONFIG.PRODUCTOS.B2B.valor * CONFIG.PRODUCTOS.B2B.pago * tasaFinal);
-                let rHog = Math.round(vHog * CONFIG.PRODUCTOS.HOGAR.valor * CONFIG.PRODUCTOS.HOGAR.pago * tasaFinal);
-                
-                // Productos dependientes de la llave
-                let rPos = tieneLlave ? Math.round(vPos * CONFIG.PRODUCTOS.POSPAGO.valor * CONFIG.PRODUCTOS.POSPAGO.pago * tasaFinal) : 0;
-                let rPre = tieneLlave ? Math.round(vPre * CONFIG.PRODUCTOS.PREPAGO.valor * CONFIG.PRODUCTOS.PREPAGO.pago * tasaFinal) : 0;
+                const res = {
+                    B2B: Math.round(vB2B * CONFIG.PRODUCTOS.B2B.valor * CONFIG.PRODUCTOS.B2B.pago * tasaFinal),
+                    Hogar: Math.round(vHog * CONFIG.PRODUCTOS.HOGAR.valor * CONFIG.PRODUCTOS.HOGAR.pago * tasaFinal),
+                    Pospago: tieneLlave ? Math.round(vPos * CONFIG.PRODUCTOS.POSPAGO.valor * CONFIG.PRODUCTOS.POSPAGO.pago * tasaFinal) : 0,
+                    Prepago: tieneLlave ? Math.round(vPre * CONFIG.PRODUCTOS.PREPAGO.valor * CONFIG.PRODUCTOS.PREPAGO.pago * tasaFinal) : 0
+                };
 
-                acumuladoVariable = rB2B + rHog + rPos + rPre;
+                for (const k in res) {
+                    acumuladoVariable += res[k];
+                    let aviso = (!tieneLlave && (k === 'Pospago' || k === 'Prepago') && (vPos > 0 || vPre > 0)) ? ' <small style="color:red">(Req. B2B/Home)</small>' : '';
+                    listaHtml += `<li><span>${k}${aviso}</span><strong>Gs. ${res[k].toLocaleString('es-PY')}</strong></li>`;
+                }
 
-                listaHtml += `<li>B2B: <strong>Gs. ${rB2B.toLocaleString('es-PY')}</strong></li>`;
-                listaHtml += `<li>Hogar: <strong>Gs. ${rHog.toLocaleString('es-PY')}</strong></li>`;
-                listaHtml += `<li>Pospago: <strong>Gs. ${rPos.toLocaleString('es-PY')}</strong> ${!tieneLlave && vPos > 0 ? '<small style="color:red">(Req. B2B/Home)</small>' : ''}</li>`;
-                listaHtml += `<li>Prepago: <strong>Gs. ${rPre.toLocaleString('es-PY')}</strong></li>`;
-
-                // Viático
-                let viatico = obtenerViatico(escalaCorretaje);
+                let viatico = (escala >= 15) ? 1700000 : (escala >= 6 ? 800000 + ((escala-6)*100000) : 0);
                 if (viatico > 0) {
                     acumuladoVariable += viatico;
-                    listaHtml += `<li style="color:blue; border-top:1px solid #ccc; margin-top:5px;">Viático (Escala ${escalaCorretaje}): <strong>Gs. ${viatico.toLocaleString('es-PY')}</strong></li>`;
+                    listaHtml += `<li style="color:var(--primary); font-weight:bold; border-top:1px solid #e2e8f0; margin-top:5px; padding-top:10px;">
+                        <span>Viático (Escala ${escala})</span><strong>Gs. ${viatico.toLocaleString('es-PY')}</strong></li>`;
                 }
             }
 
-            listaHtml += "</ul>";
             document.getElementById('detalle-productos').innerHTML = listaHtml;
             document.getElementById('total-variable').innerText = "Gs. " + acumuladoVariable.toLocaleString('es-PY');
+            document.getElementById('resultado-card').classList.remove('result-hidden');
         };
     }
 });
