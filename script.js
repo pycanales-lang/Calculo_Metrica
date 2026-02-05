@@ -1,14 +1,29 @@
 // script.js
 document.getElementById('btn-calcular').addEventListener('click', () => {
-    const p = CONFIG.PRODUCTOS;
-    
-    // Captura de valores de los inputs
-    const vPospago = document.getElementById('input-POSPAGO').value || 0;
-    const vB2b = document.getElementById('input-B2B').value || 0;
-    const vHogar = document.getElementById('input-HOGAR').value || 0;
-    const vPrepago = document.getElementById('input-PREPAGO').value || 0;
+    let totalVariable = 0;
+    let htmlDetalle = "<ul>";
 
-    // Validación simple en el output
-    document.getElementById('detalle-productos').innerText = 
-        `Inputs detectados -> Pospago: ${vPospago}, B2B: ${vB2b}, Hogar: ${vHogar}, Prepago: ${vPrepago}`;
+    // Recorremos los productos definidos en el CONFIG
+    for (const clave in CONFIG.PRODUCTOS) {
+        const producto = CONFIG.PRODUCTOS[clave];
+        
+        // 1. Obtener cantidad vendida desde el HTML
+        const cantidad = parseFloat(document.getElementById(`input-${clave}`).value) || 0;
+
+        // 2. Aplicar lógica de negocio
+        const ventaPonderada = cantidad * producto.valorPromedio * producto.porcentajePago;
+        const comisionProducto = ventaPonderada * producto.comisionNivel;
+
+        // 3. Acumular al total
+        totalVariable += comisionProducto;
+
+        // 4. Formatear detalle para el usuario
+        htmlDetalle += `<li>${producto.nombre}: $${comisionProducto.toLocaleString('es-AR')}</li>`;
+    }
+
+    htmlDetalle += "</ul>";
+
+    // Mostrar resultados en el HTML
+    document.getElementById('detalle-productos').innerHTML = htmlDetalle;
+    document.getElementById('total-variable').innerText = `$${totalVariable.toLocaleString('es-AR')}`;
 });
