@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         NIVELES: {
             "M0": 0.15,
-            "M1": 0.17,
+            "M1": 0.15,
             "M2": 0.20,
-            "M3": 0.23,
-            "M4": 0.25
+            "M3": 0.30,
+            "M4": 0.45
         }
     };
 
