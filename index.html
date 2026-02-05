@@ -1,53 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Calculadora de Comisiones</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Comisiones</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <h1>Calculadora de Comisiones</h1>
+    
+    <div id="form-container">
+        <h3>Ingreso de Ventas</h3>
+        <div>
+            <label for="ventas-pospago">Ventas Pospago:</label>
+            <input type="number" id="ventas-pospago" placeholder="0" min="0">
+        </div>
+        <button id="btn-calcular">Probar Conexión</button>
+    </div>
 
-  <h1>Calculadora de Comisiones</h1>
+    <hr>
 
-  <section>
-    <h2>Ventas</h2>
+    <div id="resultado-container">
+        <h3>Resultado:</h3>
+        <p id="output">Esperando acción...</p>
+    </div>
 
-    <label>
-      B2B:
-      <input type="number" id="b2b" value="0" min="0">
-    </label>
-    <br><br>
-
-    <label>
-      Hogar:
-      <input type="number" id="hogar" value="0" min="0">
-    </label>
-    <br><br>
-
-    <label>
-      Pospago:
-      <input type="number" id="pospago" value="0" min="0">
-    </label>
-    <br><br>
-
-    <label>
-      Prepago:
-      <input type="number" id="prepago" value="0" min="0">
-    </label>
-    <br><br>
-  </section>
-
-  <button onclick="calcular()">Calcular</button>
-
-  <section>
-    <h2>Resultado</h2>
-    <p id="resultado">–</p>
-  </section>
-
-  <!-- Scripts SIEMPRE al final -->
-  <script src="config.js"></script>
-  <script src="script.js"></script>
-
+    <script src="config.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
