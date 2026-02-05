@@ -3,66 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Comisiones - PY</title>
+    <title>Calculadora Pro de Comisiones</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Calculadora de Comisiones</h1>
+    <div class="main-card">
+        <header>
+            <h1>Calculadora de Comisiones</h1>
+            <p class="subtitle">Gestión de Ventas - Paraguay</p>
+        </header>
         
-        <div id="form-container">
-            <h3>Ingreso de Unidades Vendidas</h3>
+        <section class="config-section">
+            <div class="row">
+                <div class="input-group">
+                    <label>Esquema</label>
+                    <select id="select-esquema">
+                        <option value="STAFF">Staff</option>
+                        <option value="CORRETAJE">Corretaje</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Nivel</label>
+                    <select id="select-nivel">
+                        <option value="M0">M0</option>
+                        <option value="M1">M1</option>
+                        <option value="M2">M2</option>
+                        <option value="M3">M3</option>
+                        <option value="M4">M4</option>
+                    </select>
+                </div>
+            </div>
+        </section>
 
-            <div class="input-group">
-                <label>Esquema:</label>
-                <select id="select-esquema" style="width: 100px; padding: 5px;">
-                    <option value="STAFF">Staff</option>
-                    <option value="CORRETAJE">Corretaje</option>
-                </select>
+        <section class="products-grid">
+            <div class="product-item">
+                <label>B2B</label>
+                <input type="number" id="input-B2B" placeholder="0" min="0">
             </div>
-            
-            <div class="input-group">
-                <label>Nivel de Comisión:</label>
-                <select id="select-nivel" style="width: 100px; padding: 5px;">
-                    <option value="M0">M0</option>
-                    <option value="M1">M1</option>
-                    <option value="M2">M2</option>
-                    <option value="M3">M3</option>
-                    <option value="M4">M4</option>
-                </select>
+            <div class="product-item">
+                <label>Hogar</label>
+                <input type="number" id="input-HOGAR" placeholder="0" min="0">
             </div>
-            <hr>
-            
-            <div class="input-group">
-                <label>Pospago:</label>
-                <input type="number" id="input-POSPAGO" value="0">
+            <div class="product-item">
+                <label>Pospago</label>
+                <input type="number" id="input-POSPAGO" placeholder="0" min="0">
             </div>
-            
-            <div class="input-group">
-                <label>B2B:</label>
-                <input type="number" id="input-B2B" value="0">
+            <div class="product-item">
+                <label>Prepago</label>
+                <input type="number" id="input-PREPAGO" placeholder="0" min="0">
             </div>
+        </section>
 
-            <div class="input-group">
-                <label>Hogar:</label>
-                <input type="number" id="input-HOGAR" value="0">
-            </div>
-
-            <div class="input-group">
-                <label>Prepago:</label>
-                <input type="number" id="input-PREPAGO" value="0">
-            </div>
-
-            <button type="button" id="btn-calcular">CALCULAR AHORA</button>
+        <div class="button-container">
+            <button id="btn-calcular" class="btn-primary">Calcular Comisión</button>
+            <button id="btn-limpiar" class="btn-secondary">Limpiar Todo</button>
         </div>
 
-        <div id="resultado-container">
-            <h3>Resumen de Comisión:</h3>
-            <div id="detalle-productos">
-                <p style="color: #888;">Ingresá cantidades para comenzar.</p>
+        <div id="resultado-card" class="result-hidden">
+            <h3>Resumen de Resultados</h3>
+            <div id="detalle-productos"></div>
+            <div class="total-box">
+                <span>Total a Cobrar:</span>
+                <span id="total-variable">Gs. 0</span>
             </div>
-            <hr>
-            <p><strong>Total Variable: <span id="total-variable">Gs. 0</span></strong></p>
         </div>
     </div>
 
