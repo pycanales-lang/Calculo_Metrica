@@ -24,72 +24,72 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnCalcular = document.getElementById('btn-calcular');
     const btnLimpiar = document.getElementById('btn-limpiar');
 
-    // BOTÓN LIMPIAR
-    if (btnLimpiar) {
-        btnLimpiar.onclick = function() {
-            document.querySelectorAll('input').forEach(i => i.value = "");
-            document.getElementById('resultado-card').classList.add('result-hidden');
-            window.scrollTo(0,0);
-        };
-    }
+    btnLimpiar.onclick = () => {
+        document.querySelectorAll('input').forEach(i => i.value = "");
+        document.getElementById('resultado-card').classList.add('hidden');
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    };
 
-    // BOTÓN CALCULAR
-    if (btnCalcular) {
-        btnCalcular.onclick = function() {
-            const vB2B = parseFloat(document.getElementById('input-B2B').value) || 0;
-            const vHog = parseFloat(document.getElementById('input-HOGAR').value) || 0;
-            const vPos = parseFloat(document.getElementById('input-POSPAGO').value) || 0;
-            const vPre = parseFloat(document.getElementById('input-PREPAGO').value) || 0;
+    btnCalcular.onclick = () => {
+        const vB2B = parseFloat(document.getElementById('input-B2B').value) || 0;
+        const vHog = parseFloat(document.getElementById('input-HOGAR').value) || 0;
+        const vPos = parseFloat(document.getElementById('input-POSPAGO').value) || 0;
+        const vPre = parseFloat(document.getElementById('input-PREPAGO').value) || 0;
 
-            const esquema = document.getElementById('select-esquema').value;
-            const nivelSel = document.getElementById('select-nivel').value;
+        const esquema = document.getElementById('select-esquema').value;
+        const nivelSel = document.getElementById('select-nivel').value;
 
-            let acumuladoVariable = 0;
-            let listaHtml = "<ul>";
-            let tasaFinal = 0;
+        let totalVariable = 0;
+        let htmlResumen = "";
+        let tasa = 0;
 
-            if (esquema === "STAFF") {
-                tasaFinal = CONFIG.NIVELES_STAFF[nivelSel];
-                const res = {
-                    B2B: Math.round(vB2B * CONFIG.PRODUCTOS.B2B.valor * CONFIG.PRODUCTOS.B2B.pago * tasaFinal),
-                    Hogar: Math.round(vHog * CONFIG.PRODUCTOS.HOGAR.valor * CONFIG.PRODUCTOS.HOGAR.pago * tasaFinal),
-                    Pospago: Math.round(vPos * CONFIG.PRODUCTOS.POSPAGO.valor * CONFIG.PRODUCTOS.POSPAGO.pago * tasaFinal),
-                    Prepago: Math.round(vPre * CONFIG.PRODUCTOS.PREPAGO.valor * CONFIG.PRODUCTOS.PREPAGO.pago * tasaFinal)
-                };
-                for (const k in res) {
-                    acumuladoVariable += res[k];
-                    listaHtml += `<li><span>${k}</span><strong>Gs. ${res[k].toLocaleString('es-PY')}</strong></li>`;
-                }
-            } else {
-                const escala = vB2B + vHog;
-                const tieneLlave = (escala > 0);
-                let idx = (escala >= 16) ? 2 : (escala >= 9 ? 1 : 0);
-                tasaFinal = CONFIG.PESOS_CORRETAJE[nivelSel][idx];
+        if (esquema === "STAFF") {
+            tasa = CONFIG.NIVELES_STAFF[nivelSel];
+            const items = [
+                {n: "B2B", v: vB2B, p: CONFIG.PRODUCTOS.B2B},
+                {n: "Hogar", v: vHog, p: CONFIG.PRODUCTOS.HOGAR},
+                {n: "Pospago", v: vPos, p: CONFIG.PRODUCTOS.POSPAGO},
+                {n: "Prepago", v: vPre, p: CONFIG.PRODUCTOS.PREPAGO}
+            ];
+            items.forEach(i => {
+                let sub = Math.round(i.v * i.p.valor * i.p.pago * tasa);
+                totalVariable += sub;
+                htmlResumen += `<div><span>${i.n}</span><strong>Gs. ${sub.toLocaleString('es-PY')}</strong></div>`;
+            });
+        } else {
+            const escalaEscuela = vB2B + vHog;
+            const tieneLlave = (escalaEscuela > 0);
+            let idx = (escalaEscuela >= 16) ? 2 : (escalaEscuela >= 9 ? 1 : 0);
+            tasa = CONFIG.PESOS_CORRETAJE[nivelSel][idx];
 
-                const res = {
-                    B2B: Math.round(vB2B * CONFIG.PRODUCTOS.B2B.valor * CONFIG.PRODUCTOS.B2B.pago * tasaFinal),
-                    Hogar: Math.round(vHog * CONFIG.PRODUCTOS.HOGAR.valor * CONFIG.PRODUCTOS.HOGAR.pago * tasaFinal),
-                    Pospago: tieneLlave ? Math.round(vPos * CONFIG.PRODUCTOS.POSPAGO.valor * CONFIG.PRODUCTOS.POSPAGO.pago * tasaFinal) : 0,
-                    Prepago: tieneLlave ? Math.round(vPre * CONFIG.PRODUCTOS.PREPAGO.valor * CONFIG.PRODUCTOS.PREPAGO.pago * tasaFinal) : 0
-                };
+            const items = [
+                {n: "B2B", v: vB2B, p: CONFIG.PRODUCTOS.B2B, key: true},
+                {n: "Hogar", v: vHog, p: CONFIG.PRODUCTOS.HOGAR, key: true},
+                {n: "Pospago", v: vPos, p: CONFIG.PRODUCTOS.POSPAGO, key: false},
+                {n: "Prepago", v: vPre, p: CONFIG.PRODUCTOS.PREPAGO, key: false}
+            ];
 
-                for (const k in res) {
-                    acumuladoVariable += res[k];
-                    let aviso = (!tieneLlave && (k === 'Pospago' || k === 'Prepago') && (vPos > 0 || vPre > 0)) ? ' <small style="color:red">(Req. B2B/Home)</small>' : '';
-                    listaHtml += `<li><span>${k}${aviso}</span><strong>Gs. ${res[k].toLocaleString('es-PY')}</strong></li>`;
-                }
+            items.forEach(i => {
+                let sub = (i.key || tieneLlave) ? Math.round(i.v * i.p.valor * i.p.pago * tasa) : 0;
+                totalVariable += sub;
+                let error = (!i.key && !tieneLlave && i.v > 0) ? ' <span style="color:red">!</span>' : '';
+                htmlResumen += `<div><span>${i.n}${error}</span><strong>Gs. ${sub.toLocaleString('es-PY')}</strong></div>`;
+            });
 
-                let viatico = (escala >= 15) ? 1700000 : (escala >= 6 ? 800000 + ((escala-6)*100000) : 0);
-                if (viatico > 0) {
-                    acumuladoVariable += viatico;
-                    listaHtml += `<li style="color:var(--primary); font-weight:bold; border-top:1px solid #e2e8f0; margin-top:5px; padding-top:10px;">
-                        <span>Viático (Escala ${escala})</span><strong>Gs. ${viatico.toLocaleString('es-PY')}</strong></li>`;
-                }
+            let viatico = (escalaEscuela >= 15) ? 1700000 : (escalaEscuela >= 6 ? 800000 + ((escalaEscuela-6)*100000) : 0);
+            if (viatico > 0) {
+                totalVariable += viatico;
+                htmlResumen += `<div style="color:#0056b3; font-weight:bold;"><span>Viático (Esc. ${escalaEscuela})</span><strong>Gs. ${viatico.toLocaleString('es-PY')}</strong></div>`;
             }
+        }
 
-            document.getElementById('detalle-productos').innerHTML = listaHtml;
-            document.getElementById('total-variable').innerText = "Gs. " + acumuladoVariable.toLocaleString('es-PY');
-            document.getElementById('resultado-card').classList.remove('result-hidden');
-        };
-    }
+        document.getElementById('detalle-productos').innerHTML = htmlResumen;
+        document.getElementById('total-variable').innerText = "Gs. " + totalVariable.toLocaleString('es-PY');
+        document.getElementById('resultado-card').classList.remove('hidden');
+        
+        // Auto-scroll al resultado en móviles
+        setTimeout(() => {
+            document.getElementById('resultado-card').scrollIntoView({behavior: 'smooth'});
+        }, 100);
+    };
 });
