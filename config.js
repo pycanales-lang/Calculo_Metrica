@@ -1,5 +1,4 @@
-// script.js - TODO EN UNO (Configuración + Lógica)
-
+// CONFIGURACIÓN DE NEGOCIO (Antes en config.js)
 const CONFIG = {
     PRODUCTOS: {
         POSPAGO: {
@@ -29,9 +28,8 @@ const CONFIG = {
     }
 };
 
+// FUNCIÓN DE CÁLCULO
 const calcular = () => {
-    console.log("Iniciando cálculo..."); // Esto aparecerá en la consola (F12)
-    
     let totalVariable = 0;
     let htmlDetalle = "<ul>";
 
@@ -43,38 +41,37 @@ const calcular = () => {
             if (inputElement) {
                 const cantidad = parseFloat(inputElement.value) || 0;
 
-                // Lógica de negocio
+                // Lógica: Ventas * Valor * %Pago
                 const ventaPonderada = cantidad * producto.valorPromedio * producto.porcentajePago;
+                // Comisión: Venta Ponderada * %Comisión
                 const comisionProducto = ventaPonderada * producto.comisionNivel;
 
                 totalVariable += comisionProducto;
 
                 htmlDetalle += `
-                    <li style="display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px solid #eee; padding: 5px;">
+                    <li style="display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 4px;">
                         <span>${producto.nombre}:</span>
-                        <strong>$${comisionProducto.toLocaleString('es-AR', {minimumFractionDigits: 2})}</strong>
+                        <strong>$${comisionProducto.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong>
                     </li>`;
             }
         }
 
         htmlDetalle += "</ul>";
 
-        // Inyectar resultados
+        // Mostrar en pantalla
         document.getElementById('detalle-productos').innerHTML = htmlDetalle;
-        document.getElementById('total-variable').innerText = `$${totalVariable.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+        document.getElementById('total-variable').innerText = `$${totalVariable.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         
+        console.log("Cálculo realizado con éxito.");
     } catch (err) {
-        console.error("Error detallado:", err);
+        console.error("Error en el proceso:", err);
     }
 };
 
-// Asignar el evento cuando la ventana cargue
+// ASIGNACIÓN DEL EVENTO
 window.onload = () => {
-    const btn = document.getElementById('btn-calcular');
-    if (btn) {
-        btn.onclick = calcular;
-        console.log("Botón configurado correctamente.");
-    } else {
-        console.error("No se encontró el botón con ID 'btn-calcular'");
+    const boton = document.getElementById('btn-calcular');
+    if (boton) {
+        boton.onclick = calcular;
     }
 };
