@@ -2,73 +2,75 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Pro de Comisiones</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Comisiones Mobile</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main-card">
-        <header>
-            <h1>Calculadora de Comisiones</h1>
-            <p class="subtitle">Gestión de Ventas - Paraguay</p>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>Mis Comisiones</h1>
+            <span class="badge">Ventas PY</span>
         </header>
         
-        <section class="config-section">
-            <div class="row">
-                <div class="input-group">
-                    <label>Esquema</label>
-                    <select id="select-esquema">
-                        <option value="STAFF">Staff</option>
-                        <option value="CORRETAJE">Corretaje</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>Nivel</label>
-                    <select id="select-nivel">
-                        <option value="M0">M0</option>
-                        <option value="M1">M1</option>
-                        <option value="M2">M2</option>
-                        <option value="M3">M3</option>
-                        <option value="M4">M4</option>
-                    </select>
-                </div>
+        <div class="card selector-card">
+            <div class="input-field">
+                <label>Esquema de Trabajo</label>
+                <select id="select-esquema">
+                    <option value="STAFF">Personal Staff</option>
+                    <option value="CORRETAJE">Corretaje</option>
+                </select>
             </div>
-        </section>
-
-        <section class="products-grid">
-            <div class="product-item">
-                <label>B2B</label>
-                <input type="number" id="input-B2B" placeholder="0" min="0">
+            <div class="input-field">
+                <label>Nivel Actual</label>
+                <select id="select-nivel">
+                    <option value="M0">Nivel M0</option>
+                    <option value="M1">Nivel M1</option>
+                    <option value="M2">Nivel M2</option>
+                    <option value="M3">Nivel M3</option>
+                    <option value="M4">Nivel M4</option>
+                </select>
             </div>
-            <div class="product-item">
-                <label>Hogar</label>
-                <input type="number" id="input-HOGAR" placeholder="0" min="0">
-            </div>
-            <div class="product-item">
-                <label>Pospago</label>
-                <input type="number" id="input-POSPAGO" placeholder="0" min="0">
-            </div>
-            <div class="product-item">
-                <label>Prepago</label>
-                <input type="number" id="input-PREPAGO" placeholder="0" min="0">
-            </div>
-        </section>
-
-        <div class="button-container">
-            <button id="btn-calcular" class="btn-primary">Calcular Comisión</button>
-            <button id="btn-limpiar" class="btn-secondary">Limpiar Todo</button>
         </div>
 
-        <div id="resultado-card" class="result-hidden">
-            <h3>Resumen de Resultados</h3>
-            <div id="detalle-productos"></div>
-            <div class="total-box">
-                <span>Total a Cobrar:</span>
-                <span id="total-variable">Gs. 0</span>
+        <div class="card products-card">
+            <h3>Unidades Vendidas</h3>
+            <div class="grid-inputs">
+                <div class="input-field">
+                    <label>B2B</label>
+                    <input type="number" id="input-B2B" pattern="\[0-9]*" inputmode="numeric" placeholder="0">
+                </div>
+                <div class="input-field">
+                    <label>Hogar</label>
+                    <input type="number" id="input-HOGAR" pattern="\[0-9]*" inputmode="numeric" placeholder="0">
+                </div>
+                <div class="input-field">
+                    <label>Pospago</label>
+                    <input type="number" id="input-POSPAGO" pattern="\[0-9]*" inputmode="numeric" placeholder="0">
+                </div>
+                <div class="input-field">
+                    <label>Prepago</label>
+                    <input type="number" id="input-PREPAGO" pattern="\[0-9]*" inputmode="numeric" placeholder="0">
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button id="btn-calcular" class="btn-main">CALCULAR</button>
+            <button id="btn-limpiar" class="btn-link">Borrar datos</button>
+        </div>
+
+        <div id="resultado-card" class="result-area hidden">
+            <div class="result-card">
+                <h3>Resumen de Cobro</h3>
+                <div id="detalle-productos" class="details-list"></div>
+                <div class="total-display">
+                    <span class="total-label">TOTAL ESTIMADO</span>
+                    <span id="total-variable" class="total-amount">Gs. 0</span>
+                </div>
             </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
