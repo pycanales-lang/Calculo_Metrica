@@ -1,41 +1,47 @@
 function calcular() {
 
   // 1️⃣ Capturar ventas
-  const b2b = Number(document.getElementById('b2b').value);
-  const hogar = Number(document.getElementById('hogar').value);
-  const pospago = Number(document.getElementById('pospago').value);
-  const prepago = Number(document.getElementById('prepago').value);
+  const b2b = Number(document.getElementById('b2b').value) || 0;
+  const hogar = Number(document.getElementById('hogar').value) || 0;
+  const pospago = Number(document.getElementById('pospago').value) || 0;
+  const prepago = Number(document.getElementById('prepago').value) || 0;
 
-  // 2️⃣ Calcular venta ponderada
-  const calcB2B =
+  // 2️⃣ Venta ponderada por producto
+  const ventaB2B =
     b2b *
     CONFIG.productos.b2b.valor *
     CONFIG.productos.b2b.pago;
 
-  const calcHogar =
+  const ventaHogar =
     hogar *
     CONFIG.productos.hogar.valor *
     CONFIG.productos.hogar.pago;
 
-  const calcPospago =
+  const ventaPospago =
     pospago *
     CONFIG.productos.pospago.valor *
     CONFIG.productos.pospago.pago;
 
-  const calcPrepago =
+  const ventaPrepago =
     prepago *
     CONFIG.productos.prepago.valor *
     CONFIG.productos.prepago.pago;
 
-  // 3️⃣ Total base
-  const totalBase =
-    calcB2B +
-    calcHogar +
-    calcPospago +
-    calcPrepago;
+  // 3️⃣ Total ponderado
+  const totalPonderado =
+    ventaB2B +
+    ventaHogar +
+    ventaPospago +
+    ventaPrepago;
 
-  // 4️⃣ Mostrar resultado
+  // 4️⃣ Comisión M0 (15%)
+  const comision =
+    totalPonderado *
+    CONFIG.niveles.M0;
+
+  // 5️⃣ Mostrar resultado
   document.getElementById('resultado').innerText =
-    'Venta ponderada total: $ ' +
-    totalBase.toLocaleString();
+    "Comisión estimada: $ " +
+    comision.toLocaleString("es-ES");
+
 }
