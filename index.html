@@ -7,41 +7,39 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Calculadora de Comisiones</h1>
-    
-    <div id="form-container">
-        <h3>Ingreso de Unidades Vendidas</h3>
+    <div class="container"> <h1>Calculadora de Comisiones</h1>
         
-        <div>
-            <label>Pospago:</label>
-            <input type="number" id="input-POSPAGO" placeholder="0" min="0">
-        </div>
-        <div>
-            <label>B2B:</label>
-            <input type="number" id="input-B2B" placeholder="0" min="0">
-        </div>
-        <div>
-            <label>Hogar:</label>
-            <input type="number" id="input-HOGAR" placeholder="0" min="0">
-        </div>
-        <div>
-            <label>Prepago:</label>
-            <input type="number" id="input-PREPAGO" placeholder="0" min="0">
+        <div id="form-container">
+            <h3>Ingreso de Unidades Vendidas</h3>
+            
+            <div class="input-group"> <label>Pospago:</label>
+                <input type="number" id="input-POSPAGO" placeholder="0" min="0">
+            </div>
+            
+            <div class="input-group">
+                <label>B2B:</label>
+                <input type="number" id="input-B2B" placeholder="0" min="0">
+            </div>
+
+            <div class="input-group">
+                <label>Hogar:</label>
+                <input type="number" id="input-HOGAR" placeholder="0" min="0">
+            </div>
+
+            <div class="input-group">
+                <label>Prepago:</label>
+                <input type="number" id="input-PREPAGO" placeholder="0" min="0">
+            </div>
+
+            <button id="btn-calcular">Calcular Comisión Base</button>
         </div>
 
-        <br>
-        <button id="btn-calcular">Calcular Comisión Base</button>
-    </div>
-
-    <hr>
-
-    <div id="resultado-container">
-        <h3>Resumen de Comisión:</h3>
-        <div id="detalle-productos"></div>
-        <p><strong>Total Variable: <span id="total-variable">$0</span></strong></p>
-    </div>
-
-    <script src="config.js"></script>
+        <div id="resultado-container">
+            <h3>Resumen de Comisión:</h3>
+            <div id="detalle-productos"></div>
+            <p><strong>Total Variable: <span id="total-variable">$0</span></strong></p>
+        </div>
+    </div> <script src="config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
