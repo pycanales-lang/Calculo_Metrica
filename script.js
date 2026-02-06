@@ -8,17 +8,18 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         TASAS_STAFF: [0.15, 0.15, 0.20, 0.30, 0.45],
         TASAS_CORRETAJE: {
-            N1: [0.30, 0.30, 0.30, 0.40, 0.50], // Escala 1-8
-            N2: [0.50, 0.50, 0.50, 0.50, 0.50], // Escala 9-15
-            N3: [0.50, 0.50, 0.75, 0.75, 1.00]  // Escala 16-25
-        }
+            N1: [0.30, 0.30, 0.30, 0.40, 0.50], // 1-8 ventas llave
+            N2: [0.50, 0.50, 0.50, 0.50, 0.50], // 9-15 ventas llave
+            N3: [0.50, 0.50, 0.75, 0.75, 1.00]  // 16-25 ventas llave
+        },
+        SALARIO_FIJO_STAFF: 2900000
     };
 
     const btn = document.getElementById('btn-calcular');
     const resultadosArea = document.getElementById('resultados-area');
 
     btn.onclick = function() {
-        // Captura y saneo de datos
+        // Captura de datos
         const b2b = parseInt(document.getElementById('input-B2B').value) || 0;
         const hog = parseInt(document.getElementById('input-HOGAR').value) || 0;
         const pos = parseInt(document.getElementById('input-POSPAGO').value) || 0;
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let sumaTotalFinal = 0;
         let htmlDetalle = "";
 
-        // Función de sumatoria vertical M0 + M1 + M2 + M3 + M4
+        // Función de suma acumulada (M0 + M1 + M2 + M3 + M4)
         const calcVertical = (cant, precioObj, esLlave) => {
             let acumulado = 0;
             for (let i = 0; i < 5; i++) {
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     tasa = DATA.TASAS_CORRETAJE[nivel][i];
                 }
 
-                // Lógica de habilitación Corretaje
+                // En Corretaje, Pospago/Prepago solo pagan si escalaLlave > 0
                 if (esquema === "CORRETAJE" && !esLlave && escalaLlave === 0) {
                     acumulado += 0;
                 } else {
@@ -58,13 +59,23 @@ document.addEventListener('DOMContentLoaded', function() {
             "PREPAGO": calcVertical(pre, DATA.PRECIOS.PREPAGO, false)
         };
 
-        // Generar filas de resultados
+        // 1. Sumar Variable de productos
         for (let item in res) {
             sumaTotalFinal += res[item];
             htmlDetalle += `<div class="product-row"><span>${item} (Acumulado)</span><strong>Gs. ${res[item].toLocaleString('es-PY')}</strong></div>`;
         }
 
-        // Viático (Escala dinámica del Excel)
+        // 2. Sumar Salario Fijo si es STAFF
+        if (esquema === "STAFF") {
+            sumaTotalFinal += DATA.SALARIO_FIJO_STAFF;
+            htmlDetalle += `
+                <div class="product-row" style="background: rgba(188, 19, 254, 0.15); color: #fff; font-weight: bold;">
+                    <span>SALARIO FIJO BASE</span>
+                    <strong>Gs. ${DATA.SALARIO_FIJO_STAFF.toLocaleString('es-PY')}</strong>
+                </div>`;
+        }
+
+        // 3. Sumar Viático si es CORRETAJE
         let viatico = 0;
         if (esquema === "CORRETAJE") {
             const tablaV = {6:800000, 7:900000, 8:1000000, 9:900000, 12:1000000, 15:1200000, 16:1200000, 20:1500000, 25:1700000};
