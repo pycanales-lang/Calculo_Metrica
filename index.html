@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Commission OS v3.0</title>
+    <title>Commission OS v3.0 - Pro</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app-container">
         <header>
             <h1>COMMISSION_OS v3.0</h1>
-            <div class="status-bar">SISTEMA DE CÁLCULO ACTIVO</div>
+            <div class="status-bar">SISTEMA ACUMULATIVO M0-M4 ACTIVO</div>
         </header>
 
         <div class="cyber-card">
             <div class="input-group">
-                <label>PROTOCOLO DE TRABAJO</label>
+                <label>PROTOCOLO DE ESQUEMA</label>
                 <select id="select-esquema">
                     <option value="STAFF">MODO: STAFF</option>
                     <option value="CORRETAJE">MODO: CORRETAJE</option>
@@ -24,20 +25,20 @@
 
             <div class="grid-inputs">
                 <div class="field">
-                    <label>B2B</label>
-                    <input type="number" id="input-B2B" inputmode="numeric" value="0">
+                    <label>B2B (Llave)</label>
+                    <input type="number" id="input-B2B" inputmode="numeric" placeholder="0">
                 </div>
                 <div class="field">
-                    <label>HOGAR</label>
-                    <input type="number" id="input-HOGAR" inputmode="numeric" value="0">
+                    <label>HOGAR (Llave)</label>
+                    <input type="number" id="input-HOGAR" inputmode="numeric" placeholder="0">
                 </div>
                 <div class="field">
                     <label>POSPAGO</label>
-                    <input type="number" id="input-POSPAGO" inputmode="numeric" value="0">
+                    <input type="number" id="input-POSPAGO" inputmode="numeric" placeholder="0">
                 </div>
                 <div class="field">
                     <label>PREPAGO</label>
-                    <input type="number" id="input-PREPAGO" inputmode="numeric" value="0">
+                    <input type="number" id="input-PREPAGO" inputmode="numeric" placeholder="0">
                 </div>
             </div>
 
@@ -45,15 +46,16 @@
         </div>
 
         <div id="resultados-area" class="hidden">
-            <div class="results-grid" id="grid-detalles"></div>
+            <div class="results-grid" id="grid-detalles">
+                </div>
             
             <div class="grand-total-section">
-                <span class="total-label">FIJO + VAR PROM (SUMA M0-M4)</span>
+                <span class="total-label">TOTAL (FIJO + VAR PROM ACUMULADO)</span>
                 <div id="display-total" class="total-amount">Gs. 0</div>
                 <div id="display-viatico" class="viatico-tag"></div>
             </div>
             
-            <button onclick="location.reload()" class="btn-reset">REINICIAR SISTEMA</button>
+            <button onclick="location.reload()" class="btn-reset">RESET_SYSTEM.EXE</button>
         </div>
     </div>
     <script src="script.js"></script>
