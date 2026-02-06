@@ -3,74 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Comisiones</title>
+    <title>Calculator Pro - Blue Edition</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
 </head>
+<body>
+
     <div id="modal-disclaimer" class="modal-overlay">
         <div class="modal-content">
-            <div class="modal-header">
-                <span class="warning-icon">⚠</span>
-                <h2>AVISO DE SISTEMA</h2>
-            </div>
-            <p>Los cálculos generados en esta plataforma están sujetos a variaciones, políticas de ventas y métricas vigentes de la empresa.</p>
-            <button id="btn-aceptar-modal" class="btn-execute">ACEPTAR PROTOCOLO</button>
+            <div class="modal-icon">ⓘ</div>
+            <h2>AVISO IMPORTANTE</h2>
+            <p>Los cálculos están sujetos a variaciones, políticas de ventas y métricas internas de la empresa.</p>
+            <button id="btn-aceptar-modal" class="btn-modal">ENTENDIDO</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
-<body>
     <div class="app-container">
         <header>
-            <h1>CALCULO ESTIMADO COMISIONES</h1>
-            <div class="status-bar">ACUMULATIVO + FIJO</div>
+            <h1>SALES_CALC <span class="v-tag">v3.5</span></h1>
+            <p class="subtitle">BLUE PROTOCOL INTERFACE</p>
         </header>
 
-        <div class="cyber-card">
-            <div class="input-group">
-                <label>CANAL</label>
+        <div class="main-card">
+            <div class="input-section">
+                <label>ESQUEMA DE TRABAJO</label>
                 <select id="select-esquema">
-                    <option value="STAFF">STAFF (FIJO + VAR PROM)</option>
-                    <option value="CORRETAJE">CORRETAJE (VIATICO + VAR PROM)</option>
+                    <option value="STAFF">STAFF (BÁSICO + VARIABLE)</option>
+                    <option value="CORRETAJE">CORRETAJE (COMISIÓN PURA)</option>
                 </select>
             </div>
 
-            <div class="grid-inputs">
+            <div class="input-grid">
                 <div class="field">
-                    <label>B2B (Llave)</label>
-                    <input type="number" id="input-B2B" inputmode="numeric" placeholder="0" value="0">
+                    <label>B2B (LLAVE)</label>
+                    <input type="number" id="input-B2B" inputmode="numeric" value="0">
                 </div>
                 <div class="field">
-                    <label>HOGAR (Llave)</label>
-                    <input type="number" id="input-HOGAR" inputmode="numeric" placeholder="0" value="0">
+                    <label>HOGAR (LLAVE)</label>
+                    <input type="number" id="input-HOGAR" inputmode="numeric" value="0">
                 </div>
                 <div class="field">
                     <label>POSPAGO</label>
-                    <input type="number" id="input-POSPAGO" inputmode="numeric" placeholder="0" value="0">
+                    <input type="number" id="input-POSPAGO" inputmode="numeric" value="0">
                 </div>
                 <div class="field">
                     <label>PREPAGO</label>
-                    <input type="number" id="input-PREPAGO" inputmode="numeric" placeholder="0" value="0">
+                    <input type="number" id="input-PREPAGO" inputmode="numeric" value="0">
                 </div>
             </div>
 
-            <button id="btn-calcular" class="btn-execute">EJECUTAR ANÁLISIS</button>
+            <button id="btn-calcular" class="btn-main">EJECUTAR CÁLCULO</button>
         </div>
 
         <div id="resultados-area" class="hidden">
-            <div class="results-grid" id="grid-detalles"></div>
+            <div id="grid-detalles" class="details-container"></div>
             
-            <div class="grand-total-section">
-                <span class="total-label">TOTAL ESTIMADO (FIJO + VAR PROM)</span>
-                <div id="display-total" class="total-amount">Gs. 0</div>
-                <div id="display-viatico" class="viatico-tag"></div>
+            <div class="total-card">
+                <span class="total-title">MONTO FINAL ESTIMADO</span>
+                <div id="display-total" class="total-value">Gs. 0</div>
+                <div id="display-viatico" class="sub-value"></div>
             </div>
             
-            <button onclick="location.reload()" class="btn-reset">RESET_SYSTEM.EXE</button>
+            <button onclick="location.reload()" class="btn-reload">REINICIAR INTERFAZ</button>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
