@@ -3,42 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Commission OS v3.0 - Pro</title>
+    <title>Commission OS v3.1 - Pro</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app-container">
         <header>
-            <h1>COMMISSION_OS v3.0</h1>
-            <div class="status-bar">SISTEMA ACUMULATIVO M0-M4 ACTIVO</div>
+            <h1>COMMISSION_OS v3.1</h1>
+            <div class="status-bar">SISTEMA ACUMULATIVO + SALARIO FIJO ACTIVO</div>
         </header>
 
         <div class="cyber-card">
             <div class="input-group">
                 <label>PROTOCOLO DE ESQUEMA</label>
                 <select id="select-esquema">
-                    <option value="STAFF">MODO: STAFF</option>
-                    <option value="CORRETAJE">MODO: CORRETAJE</option>
+                    <option value="STAFF">MODO: STAFF (CON BÁSICO)</option>
+                    <option value="CORRETAJE">MODO: CORRETAJE (COMISIÓN PURA)</option>
                 </select>
             </div>
 
             <div class="grid-inputs">
                 <div class="field">
                     <label>B2B (Llave)</label>
-                    <input type="number" id="input-B2B" inputmode="numeric" placeholder="0">
+                    <input type="number" id="input-B2B" inputmode="numeric" placeholder="0" value="0">
                 </div>
                 <div class="field">
                     <label>HOGAR (Llave)</label>
-                    <input type="number" id="input-HOGAR" inputmode="numeric" placeholder="0">
+                    <input type="number" id="input-HOGAR" inputmode="numeric" placeholder="0" value="0">
                 </div>
                 <div class="field">
                     <label>POSPAGO</label>
-                    <input type="number" id="input-POSPAGO" inputmode="numeric" placeholder="0">
+                    <input type="number" id="input-POSPAGO" inputmode="numeric" placeholder="0" value="0">
                 </div>
                 <div class="field">
                     <label>PREPAGO</label>
-                    <input type="number" id="input-PREPAGO" inputmode="numeric" placeholder="0">
+                    <input type="number" id="input-PREPAGO" inputmode="numeric" placeholder="0" value="0">
                 </div>
             </div>
 
@@ -46,11 +46,10 @@
         </div>
 
         <div id="resultados-area" class="hidden">
-            <div class="results-grid" id="grid-detalles">
-                </div>
+            <div class="results-grid" id="grid-detalles"></div>
             
             <div class="grand-total-section">
-                <span class="total-label">TOTAL (FIJO + VAR PROM ACUMULADO)</span>
+                <span class="total-label">TOTAL ESTIMADO (FIJO + VAR PROM)</span>
                 <div id="display-total" class="total-amount">Gs. 0</div>
                 <div id="display-viatico" class="viatico-tag"></div>
             </div>
