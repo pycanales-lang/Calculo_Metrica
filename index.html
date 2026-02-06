@@ -3,68 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Calculator Pro - Blue Edition</title>
+    <title>Calculadora de Comisiones</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div id="modal-disclaimer" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-icon">ⓘ</div>
-            <h2>AVISO IMPORTANTE</h2>
-            <p>Los cálculos están sujetos a variaciones, políticas de ventas y métricas internas de la empresa.</p>
-            <button id="btn-aceptar-modal" class="btn-modal">ENTENDIDO</button>
+            <h2>AVISO</h2>
+            <p>Los cálculos están sujetos a variaciones y políticas de ventas de la empresa.</p>
+            <button id="btn-aceptar-modal" class="btn-main">ENTENDIDO</button>
         </div>
     </div>
 
     <div class="app-container">
         <header>
-            <h1>SALES_CALC <span class="v-tag">v3.5</span></h1>
-            <p class="subtitle">BLUE PROTOCOL INTERFACE</p>
+            <div class="brand-logo">CALCULADORA DE VENTAS</div>
+            <p class="subtitle">SISTEMA DE COMISIONES</p>
         </header>
 
         <div class="main-card">
             <div class="input-section">
-                <label>ESQUEMA DE TRABAJO</label>
+                <label>ESQUEMA</label>
                 <select id="select-esquema">
-                    <option value="STAFF">STAFF (BÁSICO + VARIABLE)</option>
-                    <option value="CORRETAJE">CORRETAJE (COMISIÓN PURA)</option>
+                    <option value="STAFF">STAFF (CON BÁSICO)</option>
+                    <option value="CORRETAJE">CORRETAJE</option>
                 </select>
             </div>
 
             <div class="input-grid">
                 <div class="field">
                     <label>B2B (LLAVE)</label>
-                    <input type="number" id="input-B2B" inputmode="numeric" value="0">
+                    <input type="number" id="input-B2B" inputmode="numeric" placeholder="0">
                 </div>
                 <div class="field">
                     <label>HOGAR (LLAVE)</label>
-                    <input type="number" id="input-HOGAR" inputmode="numeric" value="0">
+                    <input type="number" id="input-HOGAR" inputmode="numeric" placeholder="0">
                 </div>
                 <div class="field">
                     <label>POSPAGO</label>
-                    <input type="number" id="input-POSPAGO" inputmode="numeric" value="0">
+                    <input type="number" id="input-POSPAGO" inputmode="numeric" placeholder="0">
                 </div>
                 <div class="field">
                     <label>PREPAGO</label>
-                    <input type="number" id="input-PREPAGO" inputmode="numeric" value="0">
+                    <input type="number" id="input-PREPAGO" inputmode="numeric" placeholder="0">
                 </div>
             </div>
 
-            <button id="btn-calcular" class="btn-main">EJECUTAR CÁLCULO</button>
+            <button id="btn-calcular" class="btn-main">CALCULAR</button>
         </div>
 
         <div id="resultados-area" class="hidden">
             <div id="grid-detalles" class="details-container"></div>
-            
             <div class="total-card">
-                <span class="total-title">MONTO FINAL ESTIMADO</span>
+                <span class="total-title">MONTO ESTIMADO</span>
                 <div id="display-total" class="total-value">Gs. 0</div>
                 <div id="display-viatico" class="sub-value"></div>
             </div>
-            
-            <button onclick="location.reload()" class="btn-reload">REINICIAR INTERFAZ</button>
+            <button onclick="location.reload()" class="btn-reload">BORRAR TODO</button>
         </div>
     </div>
 
