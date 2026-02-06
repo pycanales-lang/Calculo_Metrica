@@ -1,4 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // --- LÓGICA DEL MODAL EMERGENTE ---
+    const modal = document.getElementById('modal-disclaimer');
+    const btnCerrarModal = document.getElementById('btn-aceptar-modal');
+
+    // Cerrar el modal al hacer clic en el botón
+    if (btnCerrarModal) {
+        btnCerrarModal.onclick = function() {
+            modal.classList.add('modal-hidden');
+        };
+    }
+
+    // --- (Aquí sigue todo el resto de tu código de cálculo anterior) ---
+    const DATA = {
+        // ... (precios, tasas, salario fijo, etc.)
+//...
+    
     const DATA = {
         PRECIOS: {
             B2B: { v: 140000, p: 0.65 },
