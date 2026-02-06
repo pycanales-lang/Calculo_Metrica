@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Calculadora de Comisiones</title>
+    <title>Tigo Comm v4.0 - Perfil HOME</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -12,26 +12,24 @@
     <div id="modal-disclaimer" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-icon">ⓘ</div>
-            <h2>AVISO</h2>
-            <p>Los cálculos están sujetos a variaciones y políticas de ventas de la empresa.</p>
-            <button id="btn-aceptar-modal" class="btn-main">ENTENDIDO</button>
+            <h2>PROTOCOLO V4.0</h2>
+            <p>Los cálculos incluyen el tope de Pospago y el Acelerador QTY para Perfil HOME.</p>
+            <button id="btn-aceptar-modal" class="btn-main">ACEPTAR</button>
         </div>
     </div>
 
     <div class="app-container">
         <header>
-            <div class="brand-logo">CALCULADORA DE VENTAS</div>
-            <p class="subtitle">SISTEMA DE COMISIONES</p>
+            <div class="brand-logo">TIGO COMMISSION OS</div>
+            <p class="subtitle">MÉTRICA DIRECTA PERFIL HOME</p>
         </header>
 
         <div class="main-card">
-            <div class="input-section">
-                <label>ESQUEMA</label>
-                <select id="select-esquema">
-                    <option value="STAFF">STAFF (CON BÁSICO)</option>
-                    <option value="CORRETAJE">CORRETAJE</option>
-                </select>
-            </div>
+            <label>ESQUEMA</label>
+            <select id="select-esquema">
+                <option value="STAFF">STAFF (CON BÁSICO)</option>
+                <option value="CORRETAJE">CORRETAJE</option>
+            </select>
 
             <div class="input-grid">
                 <div class="field">
@@ -52,17 +50,28 @@
                 </div>
             </div>
 
-            <button id="btn-calcular" class="btn-main">CALCULAR</button>
+            <button id="btn-calcular" class="btn-main">CALCULAR COMISIÓN</button>
         </div>
+
+        <details class="help-section">
+            <summary>Ver Ayuda Memoria (Políticas)</summary>
+            <div class="help-content">
+                <p>• Pospago Staff: Máximo 3 unidades comisionables.</p>
+                <p>• Acelerador: Activo desde 31 instalaciones (Hogar+B2B).</p>
+                <img src="https://tu-github.com/path/politica1.png" alt="Política de Pagos" onerror="this.alt='Cargando imagen desde GitHub...'">
+            </div>
+        </details>
 
         <div id="resultados-area" class="hidden">
             <div id="grid-detalles" class="details-container"></div>
+            <div id="alert-pospago" class="info-tag hidden">⚠️ Se aplicó tope de 3 Pospagos (Política Staff)</div>
+            
             <div class="total-card">
-                <span class="total-title">MONTO ESTIMADO</span>
+                <span class="total-title">TOTAL (FIJO + VARIABLE + ACELERADOR)</span>
                 <div id="display-total" class="total-value">Gs. 0</div>
-                <div id="display-viatico" class="sub-value"></div>
+                <div id="display-acelerador" class="sub-value"></div>
             </div>
-            <button onclick="location.reload()" class="btn-reload">BORRAR TODO</button>
+            <button onclick="location.reload()" class="btn-reload">LIMPIAR DATOS</button>
         </div>
     </div>
 
