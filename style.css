@@ -1,33 +1,95 @@
-/* ... (Mantener los estilos anteriores y agregar estos) ... */
+:root {
+    --neon-blue: #00f2ff;
+    --neon-purple: #7000ff;
+    --bg-dark: #0d0e14;
+    --glass: rgba(255, 255, 255, 0.05);
+    --border: rgba(255, 255, 255, 0.1);
+}
+
+* { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+body {
+    background-color: var(--bg-dark);
+    color: white;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container { width: 100%; max-width: 400px; }
+
+h1 { 
+    color: var(--neon-blue); 
+    text-align: center; 
+    font-size: 1.5rem; 
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+label { font-size: 0.7rem; color: var(--neon-blue); display: block; margin-bottom: 5px; }
+
+input, select {
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid var(--border);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    outline: none;
+}
+
+input:focus { border-color: var(--neon-blue); }
+
+.btn-neon {
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    font-weight: bold;
+    border-radius: 12px;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+    cursor: pointer;
+}
+
+.btn-neon:active { background: var(--neon-blue); color: black; }
+
+.nivel-box {
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid var(--neon-purple);
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+}
 
 .grand-total-card {
-    margin-top: 25px;
+    background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue));
     padding: 20px;
-    background: linear-gradient(135deg, rgba(0, 242, 255, 0.1), rgba(112, 0, 255, 0.1));
-    border: 2px solid var(--accent);
     border-radius: 15px;
     text-align: center;
-    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
-    animation: pulse 2s infinite;
+    margin-top: 20px;
 }
 
-@keyframes pulse {
-    0% { box-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
-    50% { box-shadow: 0 0 25px rgba(0, 242, 255, 0.4); }
-    100% { box-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
-}
+.grand-total-amount { font-size: 24px; font-weight: 900; }
 
-.grand-total-label {
-    font-size: 12px;
-    letter-spacing: 2px;
-    color: var(--accent);
-    display: block;
-    margin-bottom: 5px;
-}
-
-.grand-total-amount {
-    font-size: 26px;
-    font-weight: 900;
-    color: #fff;
-    text-shadow: 0 0 10px var(--accent);
-}
+.hidden { display: none; }
