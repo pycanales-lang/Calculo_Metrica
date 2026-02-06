@@ -59,7 +59,7 @@ input:focus { outline: none; border-color: var(--neon-cyan); }
 
 .btn-execute:active { background: var(--neon-cyan); color: #000; }
 
-.results-grid { margin-top: 25px; background: rgba(0,0,0,0.2); border-radius: 10px; }
+.results-grid { margin-top: 25px; background: rgba(0,0,0,0.2); border-radius: 10px; overflow: hidden; }
 
 .product-row {
     display: flex; justify-content: space-between;
