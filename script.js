@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const calc = (cant, obj, esLlave) => {
             let sub = 0;
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < 5; i++) {
                 let tasa = (esquema === "STAFF") ? DATA.TASAS_STAFF[i] : 
                            DATA.TASAS_CORRETAJE[(sumaLlave >= 16 ? 'N3' : (sumaLlave >= 9 ? 'N2' : 'N1'))][i];
                 
