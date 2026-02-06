@@ -82,3 +82,12 @@ input, select {
     width: 100%; background: none; border: none; color: #666;
     margin-top: 20px; font-size: 0.7rem; text-decoration: underline;
 }
+
+/* (Mantené el resto igual, solo verificá que .hidden esté así) */
+.hidden { display: none !important; }
+
+/* Agregá esto para que el botón se sienta que fue presionado */
+.btn-execute:active {
+    background: var(--neon-cyan);
+    color: #000;
+}
