@@ -6,26 +6,20 @@ document.addEventListener('DOMContentLoaded', function() {
             POSPAGO: { valor: 75000, pago: 0.65 },
             PREPAGO: { valor: 25000, pago: 0.60 }
         },
-        // TABLA STAFF: Porcentajes fijos directos
-        NIVELES_STAFF: {
-            "M0": 0.15, "M1": 0.15, "M2": 0.20, "M3": 0.30, "M4": 0.45
-        },
-        // TABLA CORRETAJE: [Nivel 1 (1-8), Nivel 2 (9-15), Nivel 3 (16+)]
+        NIVELES_STAFF: { "M0": 0.15, "M1": 0.17, "M2": 0.20, "M3": 0.23, "M4": 0.25 },
         PESOS_CORRETAJE: {
-            "M0": [0.30, 0.50, 0.50],
-            "M1": [0.30, 0.50, 0.50],
-            "M2": [0.30, 0.50, 0.75],
-            "M3": [0.40, 0.50, 0.75],
-            "M4": [0.50, 0.50, 1.00]
+            "M0": [0.30, 0.50, 0.50], "M1": [0.30, 0.50, 0.50],
+            "M2": [0.30, 0.50, 0.75], "M3": [0.30, 0.50, 0.75], "M4": [0.30, 0.50, 0.75]
         }
     };
 
     const btnCalcular = document.getElementById('btn-calcular');
     const btnLimpiar = document.getElementById('btn-limpiar');
+    const containerNiveles = document.getElementById('grid-niveles');
 
     btnLimpiar.onclick = () => {
         document.querySelectorAll('input').forEach(i => i.value = "");
-        document.getElementById('resultado-card').classList.add('hidden');
+        document.getElementById('resultados-container').classList.add('hidden');
     };
 
     btnCalcular.onclick = () => {
@@ -34,43 +28,57 @@ document.addEventListener('DOMContentLoaded', function() {
         const vPos = parseFloat(document.getElementById('input-POSPAGO').value) || 0;
         const vPre = parseFloat(document.getElementById('input-PREPAGO').value) || 0;
         const esquema = document.getElementById('select-esquema').value;
-        const nivelSel = document.getElementById('select-nivel').value;
 
-        let total = 0;
-        let html = "";
-        let tasa = 0;
+        const escalaEscuela = vB2B + vHog;
+        const tieneLlave = (escalaEscuela > 0);
+        
+        containerNiveles.innerHTML = ""; // Limpiar grid anterior
 
-        if (esquema === "STAFF") {
-            tasa = CONFIG.NIVELES_STAFF[nivelSel];
-            const items = [{n:"B2B", v:vB2B, p:CONFIG.PRODUCTOS.B2B}, {n:"Hogar", v:vHog, p:CONFIG.PRODUCTOS.HOGAR}, {n:"Pospago", v:vPos, p:CONFIG.PRODUCTOS.POSPAGO}, {n:"Prepago", v:vPre, p:CONFIG.PRODUCTOS.PREPAGO}];
-            items.forEach(i => {
-                let sub = Math.round(i.v * i.p.valor * i.p.pago * tasa);
-                total += sub;
-                html += `<div class="res-item"><span>${i.n}</span><strong>Gs. ${sub.toLocaleString('es-PY')}</strong></div>`;
-            });
-        } else {
-            const escala = vB2B + vHog;
-            const llave = escala > 0;
-            let idx = (escala >= 16) ? 2 : (escala >= 9 ? 1 : 0);
-            tasa = CONFIG.PESOS_CORRETAJE[nivelSel][idx];
+        // CALCULAR CADA NIVEL (M0 a M4)
+        ["M0", "M1", "M2", "M3", "M4"].forEach(nivel => {
+            let totalNivel = 0;
+            let tasa = 0;
 
-            const items = [{n:"B2B", v:vB2B, p:CONFIG.PRODUCTOS.B2B, k:true}, {n:"Hogar", v:vHog, p:CONFIG.PRODUCTOS.HOGAR, k:true}, {n:"Pospago", v:vPos, p:CONFIG.PRODUCTOS.POSPAGO, k:false}, {n:"Prepago", v:vPre, p:CONFIG.PRODUCTOS.PREPAGO, k:false}];
-            items.forEach(i => {
-                let sub = (i.k || llave) ? Math.round(i.v * i.p.valor * i.p.pago * tasa) : 0;
-                total += sub;
-                html += `<div class="res-item"><span>${i.n}</span><strong>Gs. ${sub.toLocaleString('es-PY')}</strong></div>`;
-            });
-
-            let viatico = (escala >= 15) ? 1700000 : (escala >= 6 ? 800000 + ((escala-6)*100000) : 0);
-            if (viatico > 0) {
-                total += viatico;
-                html += `<div class="res-item" style="color:var(--blue); font-weight:bold;"><span>Viático</span><strong>Gs. ${viatico.toLocaleString('es-PY')}</strong></div>`;
+            if (esquema === "STAFF") {
+                tasa = CONFIG.NIVELES_STAFF[nivel];
+            } else {
+                let idx = (escalaEscuela >= 16) ? 2 : (escalaEscuela >= 9 ? 1 : 0);
+                tasa = CONFIG.PESOS_CORRETAJE[nivel][idx];
             }
-        }
 
-        document.getElementById('detalle-productos').innerHTML = html;
-        document.getElementById('total-variable').innerText = "Gs. " + total.toLocaleString('es-PY');
-        document.getElementById('resultado-card').classList.remove('hidden');
+            // Calculo de productos
+            let rB2B = Math.round(vB2B * CONFIG.PRODUCTOS.B2B.valor * CONFIG.PRODUCTOS.B2B.pago * tasa);
+            let rHog = Math.round(vHog * CONFIG.PRODUCTOS.HOGAR.valor * CONFIG.PRODUCTOS.HOGAR.pago * tasa);
+            
+            let rPos = (esquema === "STAFF" || tieneLlave) ? Math.round(vPos * CONFIG.PRODUCTOS.POSPAGO.valor * CONFIG.PRODUCTOS.POSPAGO.pago * tasa) : 0;
+            let rPre = (esquema === "STAFF" || tieneLlave) ? Math.round(vPre * CONFIG.PRODUCTOS.PREPAGO.valor * CONFIG.PRODUCTOS.PREPAGO.pago * tasa) : 0;
+
+            totalNivel = rB2B + rHog + rPos + rPre;
+
+            // Sumar viático solo si es Corretaje
+            let viatico = 0;
+            if (esquema === "CORRETAJE") {
+                viatico = (escalaEscuela >= 15) ? 1700000 : (escalaEscuela >= 6 ? 800000 + ((escalaEscuela-6)*100000) : 0);
+                totalNivel += viatico;
+            }
+
+            // Crear Tarjeta de Nivel
+            const card = document.createElement('div');
+            card.className = 'nivel-card';
+            card.innerHTML = `
+                <div class="nivel-header">
+                    <span class="nivel-badge">Nivel ${nivel} (${Math.round(tasa*100)}%)</span>
+                    <span class="nivel-total">Gs. ${totalNivel.toLocaleString('es-PY')}</span>
+                </div>
+                <div class="nivel-detalles">
+                    Variable: Gs. ${(totalNivel - viatico).toLocaleString('es-PY')} 
+                    ${viatico > 0 ? ` | Viático: Gs. ${viatico.toLocaleString('es-PY')}` : ''}
+                </div>
+            `;
+            containerNiveles.appendChild(card);
+        });
+
+        document.getElementById('resultados-container').classList.remove('hidden');
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     };
 });
