@@ -1,25 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
     const CONFIG = {
         PRODUCTOS: {
-            B2B: { valor: 140000, pago: 0.65 },
-            HOGAR: { valor: 140000, pago: 0.65 },
-            POSPAGO: { valor: 75000, pago: 0.65 },
-            PREPAGO: { valor: 25000, pago: 0.60 }
+            B2B: { v: 140000, p: 0.65 },
+            HOGAR: { v: 140000, p: 0.65 },
+            POSPAGO: { v: 75000, p: 0.65 },
+            PREPAGO: { v: 25000, p: 0.60 }
         },
-        NIVELES_STAFF: { "M0": 0.15, "M1": 0.17, "M2": 0.20, "M3": 0.23, "M4": 0.25 },
+        // TABLA STAFF: Porcentajes fijos directos
+        NIVELES_STAFF: {
+            "M0": 0.15, "M1": 0.15, "M2": 0.20, "M3": 0.30, "M4": 0.45
+        },
+        // TABLA CORRETAJE: [Nivel 1 (1-8), Nivel 2 (9-15), Nivel 3 (16+)]
         PESOS_CORRETAJE: {
-            "M0": [0.30, 0.50, 0.50], "M1": [0.30, 0.50, 0.50],
-            "M2": [0.30, 0.50, 0.75], "M3": [0.30, 0.50, 0.75], "M4": [0.30, 0.50, 0.75]
+            "M0": [0.30, 0.50, 0.50],
+            "M1": [0.30, 0.50, 0.50],
+            "M2": [0.30, 0.50, 0.75],
+            "M3": [0.40, 0.50, 0.75],
+            "M4": [0.50, 0.50, 1.00]
         }
     };
 
     const btnCalcular = document.getElementById('btn-calcular');
     const btnLimpiar = document.getElementById('btn-limpiar');
-    const containerNiveles = document.getElementById('grid-niveles');
+    const grid = document.getElementById('grid-niveles');
 
     btnLimpiar.onclick = () => {
         document.querySelectorAll('input').forEach(i => i.value = "");
-        document.getElementById('resultados-container').classList.add('hidden');
+        document.getElementById('resultados-area').classList.add('hidden');
     };
 
     btnCalcular.onclick = () => {
@@ -30,15 +37,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const esquema = document.getElementById('select-esquema').value;
 
         const escalaEscuela = vB2B + vHog;
-        const tieneLlave = (escalaEscuela > 0);
-        
-        containerNiveles.innerHTML = ""; // Limpiar grid anterior
+        grid.innerHTML = ""; 
 
-        // CALCULAR CADA NIVEL (M0 a M4)
         ["M0", "M1", "M2", "M3", "M4"].forEach(nivel => {
-            let totalNivel = 0;
             let tasa = 0;
-
             if (esquema === "STAFF") {
                 tasa = CONFIG.NIVELES_STAFF[nivel];
             } else {
@@ -46,39 +48,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 tasa = CONFIG.PESOS_CORRETAJE[nivel][idx];
             }
 
-            // Calculo de productos
-            let rB2B = Math.round(vB2B * CONFIG.PRODUCTOS.B2B.valor * CONFIG.PRODUCTOS.B2B.pago * tasa);
-            let rHog = Math.round(vHog * CONFIG.PRODUCTOS.HOGAR.valor * CONFIG.PRODUCTOS.HOGAR.pago * tasa);
+            // Calculo de Variable
+            let variable = Math.round((vB2B*CONFIG.PRODUCTOS.B2B.v*CONFIG.PRODUCTOS.B2B.p*tasa) +
+                                      (vHog*CONFIG.PRODUCTOS.HOGAR.v*CONFIG.PRODUCTOS.HOGAR.p*tasa));
             
-            let rPos = (esquema === "STAFF" || tieneLlave) ? Math.round(vPos * CONFIG.PRODUCTOS.POSPAGO.valor * CONFIG.PRODUCTOS.POSPAGO.pago * tasa) : 0;
-            let rPre = (esquema === "STAFF" || tieneLlave) ? Math.round(vPre * CONFIG.PRODUCTOS.PREPAGO.valor * CONFIG.PRODUCTOS.PREPAGO.pago * tasa) : 0;
-
-            totalNivel = rB2B + rHog + rPos + rPre;
-
-            // Sumar viático solo si es Corretaje
-            let viatico = 0;
-            if (esquema === "CORRETAJE") {
-                viatico = (escalaEscuela >= 15) ? 1700000 : (escalaEscuela >= 6 ? 800000 + ((escalaEscuela-6)*100000) : 0);
-                totalNivel += viatico;
+            // Llave para Pospago/Prepago en Corretaje
+            if (esquema === "STAFF" || escalaEscuela > 0) {
+                variable += Math.round((vPos*CONFIG.PRODUCTOS.POSPAGO.v*CONFIG.PRODUCTOS.POSPAGO.p*tasa) +
+                                       (vPre*CONFIG.PRODUCTOS.PREPAGO.v*CONFIG.PRODUCTOS.PREPAGO.p*tasa));
             }
 
-            // Crear Tarjeta de Nivel
-            const card = document.createElement('div');
-            card.className = 'nivel-card';
-            card.innerHTML = `
-                <div class="nivel-header">
-                    <span class="nivel-badge">Nivel ${nivel} (${Math.round(tasa*100)}%)</span>
-                    <span class="nivel-total">Gs. ${totalNivel.toLocaleString('es-PY')}</span>
+            let viatico = 0;
+            if (esquema === "CORRETAJE") {
+                const tablaViatico = {6:800000, 7:900000, 8:1000000, 9:900000, 12:1000000, 15:1200000, 16:1200000, 20:1500000, 25:1700000};
+                // Encontrar el viático correspondiente o el anterior más cercano
+                let keys = Object.keys(tablaViatico).map(Number).sort((a,b)=>a-b);
+                let escalaEncontrada = keys.filter(k => k <= escalaEscuela).pop();
+                viatico = escalaEncontrada ? tablaViatico[escalaEncontrada] : 0;
+            }
+
+            const total = variable + viatico;
+
+            const div = document.createElement('div');
+            div.className = 'nivel-box';
+            div.innerHTML = `
+                <div class="lvl-info">
+                    <span>${nivel} - RATIO ${(tasa*100).toFixed(0)}%</span>
+                    <strong>SISTEMA OPERATIVO</strong>
                 </div>
-                <div class="nivel-detalles">
-                    Variable: Gs. ${(totalNivel - viatico).toLocaleString('es-PY')} 
-                    ${viatico > 0 ? ` | Viático: Gs. ${viatico.toLocaleString('es-PY')}` : ''}
-                </div>
+                <div class="lvl-amount">Gs. ${total.toLocaleString('es-PY')}</div>
             `;
-            containerNiveles.appendChild(card);
+            grid.appendChild(div);
         });
 
-        document.getElementById('resultados-container').classList.remove('hidden');
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        document.getElementById('resultados-area').classList.remove('hidden');
     };
 });
