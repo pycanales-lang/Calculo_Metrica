@@ -6,10 +6,17 @@ document.addEventListener('DOMContentLoaded', function() {
             POSPAGO: { v: 75000, p: 0.65 },
             PREPAGO: { v: 25000, p: 0.60 }
         },
-        NIVELES_STAFF: { "M0": 0.15, "M1": 0.15, "M2": 0.20, "M3": 0.30, "M4": 0.45 },
+        // TABLA STAFF: Porcentajes fijos directos
+        NIVELES_STAFF: {
+            "M0": 0.15, "M1": 0.15, "M2": 0.20, "M3": 0.30, "M4": 0.45
+        },
+        // TABLA CORRETAJE: [Nivel 1 (1-8), Nivel 2 (9-15), Nivel 3 (16+)]
         PESOS_CORRETAJE: {
-            "M0": [0.30, 0.50, 0.50], "M1": [0.30, 0.50, 0.50],
-            "M2": [0.30, 0.50, 0.75], "M3": [0.40, 0.50, 0.75], "M4": [0.50, 0.50, 1.00]
+            "M0": [0.30, 0.50, 0.50],
+            "M1": [0.30, 0.50, 0.50],
+            "M2": [0.30, 0.50, 0.75],
+            "M3": [0.40, 0.50, 0.75],
+            "M4": [0.50, 0.50, 1.00]
         }
     };
 
