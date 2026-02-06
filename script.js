@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const CONFIG = {
-        PRODUCTOS: {
+    const DATA = {
+        PRECIOS: {
             B2B: { v: 140000, p: 0.65 },
             HOGAR: { v: 140000, p: 0.65 },
             POSPAGO: { v: 75000, p: 0.65 },
             PREPAGO: { v: 25000, p: 0.60 }
         },
-       // TABLA STAFF: Porcentajes fijos directos
+        // TABLA STAFF: Porcentajes fijos directos
         NIVELES_STAFF: {
             "M0": 0.15, "M1": 0.15, "M2": 0.20, "M3": 0.30, "M4": 0.45
         },
@@ -20,59 +20,76 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    const btnCalcular = document.getElementById('btn-calcular');
-    const grid = document.getElementById('grid-niveles');
+    const btn = document.getElementById('btn-calcular');
 
-    btnCalcular.onclick = function() {
-        const vB2B = parseFloat(document.getElementById('input-B2B').value) || 0;
-        const vHog = parseFloat(document.getElementById('input-HOGAR').value) || 0;
-        const vPos = parseFloat(document.getElementById('input-POSPAGO').value) || 0;
-        const vPre = parseFloat(document.getElementById('input-PREPAGO').value) || 0;
+    btn.onclick = () => {
+        const prod = {
+            B2B: parseInt(document.getElementById('input-B2B').value) || 0,
+            HOGAR: parseInt(document.getElementById('input-HOGAR').value) || 0,
+            POSPAGO: parseInt(document.getElementById('input-POSPAGO').value) || 0,
+            PREPAGO: parseInt(document.getElementById('input-PREPAGO').value) || 0
+        };
         const esquema = document.getElementById('select-esquema').value;
-
-        const escalaEscuela = vB2B + vHog;
-        const tieneLlave = (escalaEscuela > 0);
+        const escalaLlave = prod.B2B + prod.HOGAR;
         
-        let sumatoriaNiveles = 0;
-        grid.innerHTML = ""; 
+        let sumaTotalFinal = 0;
+        let htmlDetalle = "";
 
-        ["M0", "M1", "M2", "M3", "M4"].forEach(nivel => {
-            let tasa = (esquema === "STAFF") ? CONFIG.NIVELES_STAFF[nivel] : 
-                       CONFIG.PESOS_CORRETAJE[nivel][(escalaEscuela >= 16) ? 2 : (escalaEscuela >= 9 ? 1 : 0)];
-
-            let variable = Math.round((vB2B * CONFIG.PRODUCTOS.B2B.v * CONFIG.PRODUCTOS.B2B.p * tasa) +
-                                      (vHog * CONFIG.PRODUCTOS.HOGAR.v * CONFIG.PRODUCTOS.HOGAR.p * tasa));
-            
-            if (esquema === "STAFF" || tieneLlave) {
-                variable += Math.round((vPos * CONFIG.PRODUCTOS.POSPAGO.v * CONFIG.PRODUCTOS.POSPAGO.p * tasa) +
-                                       (vPre * CONFIG.PRODUCTOS.PREPAGO.v * CONFIG.PRODUCTOS.PREPAGO.p * tasa));
+        // Función para calcular la sumatoria de un producto (M0 + M1 + M2 + M3 + M4)
+        const calcularSumaProducto = (cantidad, precioObj, esLlave) => {
+            let acumulado = 0;
+            for (let i = 0; i < 5; i++) {
+                let tasa = 0;
+                if (esquema === "STAFF") {
+                    tasa = DATA.TASAS_STAFF[i];
+                } else {
+                    let nivelEscala = (escalaLlave >= 16) ? 'N3' : (escalaLlave >= 9 ? 'N2' : 'N1');
+                    tasa = DATA.TASAS_CORRETAJE[nivelEscala][i];
+                }
+                
+                // Si es corretaje y NO es producto llave y NO hay ventas de llave, suma 0
+                if (esquema === "CORRETAJE" && !esLlave && escalaLlave === 0) {
+                    acumulado += 0;
+                } else {
+                    acumulado += (cantidad * precioObj.v * precioObj.p * tasa);
+                }
             }
+            return Math.round(acumulado);
+        };
 
-            sumatoriaNiveles += variable;
+        // Calculamos cada producto
+        const resultados = {
+            B2B: calcularSumaProducto(prod.B2B, DATA.PRECIOS.B2B, true),
+            HOGAR: calcularSumaProducto(prod.HOGAR, DATA.PRECIOS.HOGAR, true),
+            POSPAGO: calcularSumaProducto(prod.POSPAGO, DATA.PRECIOS.POSPAGO, false),
+            PREPAGO: calcularSumaProducto(prod.PREPAGO, DATA.PRECIOS.PREPAGO, false)
+        };
 
-            grid.innerHTML += `
-                <div class="nivel-box">
-                    <div><label>NIVEL ${nivel}</label><strong>${(tasa*100).toFixed(0)}%</strong></div>
-                    <div>Gs. ${variable.toLocaleString('es-PY')}</div>
+        // Generar HTML de detalle
+        for (let key in resultados) {
+            sumaTotalFinal += resultados[key];
+            htmlDetalle += `
+                <div class="product-row">
+                    <span>${key} (M0-M4)</span>
+                    <strong>Gs. ${resultados[key].toLocaleString('es-PY')}</strong>
                 </div>`;
-        });
-
-        let viatico = 0;
-        if (esquema === "CORRETAJE") {
-            const tabla = {6:800000, 7:900000, 8:1000000, 9:900000, 12:1000000, 15:1200000, 16:1200000, 20:1500000, 25:1700000};
-            let escalaOk = Object.keys(tabla).map(Number).filter(k => k <= escalaEscuela).pop();
-            viatico = escalaOk ? tabla[escalaOk] : 0;
         }
 
-        const granTotal = sumatoriaNiveles + viatico;
+        // Lógica de Viático (Solo Corretaje)
+        let viatico = 0;
+        if (esquema === "CORRETAJE") {
+            const tablaV = {6:800000, 7:900000, 8:1000000, 9:900000, 12:1000000, 15:1200000, 16:1200000, 20:1500000, 25:1700000};
+            let keys = Object.keys(tablaV).map(Number).filter(k => k <= escalaLlave).pop();
+            viatico = keys ? tablaV[keys] : 0;
+            sumaTotalFinal += viatico;
+        }
 
-        grid.innerHTML += `
-            <div class="grand-total-card">
-                <div style="font-size: 10px; opacity: 0.8;">SISTEMA TOTAL (FIJO + VAR PROM)</div>
-                <div class="grand-total-amount">Gs. ${granTotal.toLocaleString('es-PY')}</div>
-                ${viatico > 0 ? `<div style="font-size:11px; margin-top:5px;">Incluye Viático: Gs. ${viatico.toLocaleString('es-PY')}</div>` : ''}
-            </div>`;
-
+        // Mostrar resultados
+        document.getElementById('grid-detalles').innerHTML = htmlDetalle;
+        document.getElementById('display-total').innerText = "Gs. " + sumaTotalFinal.toLocaleString('es-PY');
+        document.getElementById('display-viatico').innerText = viatico > 0 ? `+ VIÁTICO INCLUIDO: Gs. ${viatico.toLocaleString('es-PY')}` : "";
         document.getElementById('resultados-area').classList.remove('hidden');
+        
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     };
 });
