@@ -1,95 +1,84 @@
 :root {
-    --neon-blue: #00f2ff;
-    --neon-purple: #7000ff;
-    --bg-dark: #0d0e14;
-    --glass: rgba(255, 255, 255, 0.05);
-    --border: rgba(255, 255, 255, 0.1);
+    --neon-cyan: #00f2ff;
+    --neon-purple: #bc13fe;
+    --dark-bg: #050608;
+    --glass: rgba(255, 255, 255, 0.03);
 }
-
-* { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
 body {
-    background-color: var(--bg-dark);
-    color: white;
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
+    background: radial-gradient(circle at center, #10121b 0%, var(--dark-bg) 100%);
+    color: #e0e0e0;
+    font-family: 'Orbitron', sans-serif;
+    margin: 0; padding: 20px;
+    min-height: 100vh;
 }
 
-.container { width: 100%; max-width: 400px; }
+.app-container { max-width: 450px; margin: 0 auto; }
 
-h1 { 
-    color: var(--neon-blue); 
-    text-align: center; 
-    font-size: 1.5rem; 
-    text-transform: uppercase;
-    text-shadow: 0 0 10px var(--neon-blue);
+h1 {
+    font-size: 1.2rem; text-align: center; color: var(--neon-cyan);
+    letter-spacing: 2px; margin-bottom: 5px;
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
 }
 
-.glass-card {
+.status-bar {
+    font-size: 0.6rem; text-align: center; color: var(--neon-purple);
+    margin-bottom: 20px; letter-spacing: 1px;
+}
+
+.cyber-card {
     background: var(--glass);
+    border: 1px solid rgba(0, 242, 255, 0.2);
+    border-radius: 15px; padding: 20px;
     backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    padding: 20px;
-    border-radius: 20px;
-    margin-bottom: 20px;
 }
 
-.input-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin: 15px 0;
+.grid-inputs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;
 }
 
-label { font-size: 0.7rem; color: var(--neon-blue); display: block; margin-bottom: 5px; }
+label { font-size: 0.65rem; color: var(--neon-cyan); margin-bottom: 5px; display: block; }
 
 input, select {
-    width: 100%;
-    background: rgba(0,0,0,0.5);
-    border: 1px solid var(--border);
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
-    outline: none;
+    width: 100%; background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 5px; padding: 12px; color: white;
+    font-family: sans-serif; font-size: 1rem;
 }
 
-input:focus { border-color: var(--neon-blue); }
-
-.btn-neon {
-    width: 100%;
-    padding: 15px;
-    background: transparent;
-    border: 2px solid var(--neon-blue);
-    color: var(--neon-blue);
-    font-weight: bold;
-    border-radius: 12px;
-    text-transform: uppercase;
-    box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
-    cursor: pointer;
+.btn-execute {
+    width: 100%; margin-top: 20px; padding: 15px;
+    background: transparent; border: 2px solid var(--neon-cyan);
+    color: var(--neon-cyan); font-family: 'Orbitron'; font-weight: bold;
+    border-radius: 10px; cursor: pointer;
+    box-shadow: inset 0 0 10px rgba(0, 242, 255, 0.2);
 }
 
-.btn-neon:active { background: var(--neon-blue); color: black; }
+/* Resultados */
+.results-grid { margin-top: 25px; }
 
-.nivel-box {
-    background: rgba(255,255,255,0.03);
-    border-left: 3px solid var(--neon-purple);
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
+.product-row {
+    display: flex; justify-content: space-between;
+    padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.8rem;
 }
 
-.grand-total-card {
-    background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue));
-    padding: 20px;
-    border-radius: 15px;
+.grand-total-section {
+    margin-top: 25px; padding: 25px;
+    background: linear-gradient(135deg, rgba(188, 19, 254, 0.1), rgba(0, 242, 255, 0.1));
+    border: 1px solid var(--neon-purple); border-radius: 15px;
     text-align: center;
-    margin-top: 20px;
 }
 
-.grand-total-amount { font-size: 24px; font-weight: 900; }
+.total-amount {
+    font-size: 2rem; font-weight: bold; color: white;
+    text-shadow: 0 0 15px var(--neon-purple);
+}
+
+.viatico-tag { color: var(--neon-cyan); font-size: 0.7rem; margin-top: 10px; }
 
 .hidden { display: none; }
+.btn-reset {
+    width: 100%; background: none; border: none; color: #666;
+    margin-top: 20px; font-size: 0.7rem; text-decoration: underline;
+}
