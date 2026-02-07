@@ -72,3 +72,8 @@ input, select {
 
 .hidden { display: none !important; }
 .btn-reload { width:100%; background:none; border:none; color:var(--celeste-tigo); margin-top: 15px; text-decoration: underline; cursor:pointer; }
+
+/* ... (todos tus estilos anteriores) ... */
+.img-container { margin-top: 15px; border-top: 1px dashed #ddd; padding-top: 10px; }
+.img-container span { display: block; font-size: 0.7rem; font-weight: bold; margin-bottom: 5px; color: var(--celeste-tigo); text-transform: uppercase; }
+.img-container img { width: 100%; border-radius: 8px; box-shadow: 0 3px 6px rgba(0,0,0,0.1); }
