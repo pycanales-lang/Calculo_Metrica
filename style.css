@@ -68,7 +68,13 @@ input, select {
     background: rgba(0, 55, 125, 0.95); display: flex; justify-content: center; align-items: center; z-index: 999;
 }
 .modal-content { background: #fff; padding: 30px; border-radius: 20px; text-align: center; width: 85%; max-width: 350px; }
-.modal-icon { font-size: 2.5rem; color: var(--celeste-tigo); margin-bottom: 15px; }
+.modal-icon { 
+    font-size: 2.5rem; 
+    color: #ff0000; /* Aquí cambias el celeste-tigo por rojo */
+    margin-bottom: 15px; 
+    /* Opcional: un leve resplandor para que resalte */
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.2); 
+}
 
 .hidden { display: none !important; }
 .btn-reload { width:100%; background:none; border:none; color:var(--celeste-tigo); margin-top: 15px; text-decoration: underline; cursor:pointer; }
