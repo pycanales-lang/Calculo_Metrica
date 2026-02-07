@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Calc Comisión - Perfil HOME</title>
+    <title>Tigo Comm v4.5</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
 </head>
@@ -12,81 +12,51 @@
     <div id="modal-disclaimer" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-icon">ⓘ</div>
-            <h2>ATENCIÓN..</h2>
-            <p>Los cálculos están sujetos a variaciones y métricas vigentes de la empresa. Incluye tope Pospago y Acelerador QTY.</p>
+            <h2>PROTOCOLO V4.5</h2>
+            <p>Sistema actualizado con políticas dinámicas según el perfil seleccionado.</p>
             <button id="btn-aceptar-modal" class="btn-main">ENTENDIDO</button>
         </div>
     </div>
 
     <div class="app-container">
         <header>
-            <div class="brand-logo">CALCULA TUS COMISIONES</div>
-            <p class="subtitle">MÉTRICA DIRECTA PERFIL HOME</p>
+            <div class="brand-logo">TIGO COMMISSION OS</div>
+            <p class="subtitle">CERTIFICACIÓN DE RESULTADOS</p>
         </header>
 
         <div class="main-card">
-            <label>CANAL</label>
+            <label>SELECCIONAR ESQUEMA</label>
             <select id="select-esquema">
-                <option value="STAFF">STAFF (FIJO + VARIABLE)</option>
-                <option value="CORRETAJE">CORRETAJE (COMISIÓN + VIATICO)</option>
+                <option value="STAFF">MODO: STAFF (CON BÁSICO)</option>
+                <option value="CORRETAJE">MODO: CORRETAJE</option>
             </select>
 
             <div class="input-grid">
-                <div class="field">
-                    <label>B2B (LLAVE)</label>
-                    <input type="number" id="input-B2B" inputmode="numeric" placeholder="0">
-                </div>
-                <div class="field">
-                    <label>HOGAR (LLAVE)</label>
-                    <input type="number" id="input-HOGAR" inputmode="numeric" placeholder="0">
-                </div>
-                <div class="field">
-                    <label>POSPAGO</label>
-                    <input type="number" id="input-POSPAGO" inputmode="numeric" placeholder="0">
-                </div>
-                <div class="field">
-                    <label>PREPAGO</label>
-                    <input type="number" id="input-PREPAGO" inputmode="numeric" placeholder="0">
-                </div>
+                <div class="field"><label>B2B (LLAVE)</label><input type="number" id="input-B2B" inputmode="numeric" placeholder="0"></div>
+                <div class="field"><label>HOGAR (LLAVE)</label><input type="number" id="input-HOGAR" inputmode="numeric" placeholder="0"></div>
+                <div class="field"><label>POSPAGO</label><input type="number" id="input-POSPAGO" inputmode="numeric" placeholder="0"></div>
+                <div class="field"><label>PREPAGO</label><input type="number" id="input-PREPAGO" inputmode="numeric" placeholder="0"></div>
             </div>
 
-            <button id="btn-calcular" class="btn-main">EJECUTAR CÁLCULO</button>
+            <button id="btn-calcular" class="btn-main">CALCULAR RESULTADOS</button>
         </div>
 
         <details class="help-section">
             <summary>Ver Ayuda Memoria (Políticas)</summary>
-            <div class="help-content">
-                <p>• <strong>Tope Pospago:</strong> Máximo 3 unidades (Staff).</p>
-                <p>• <strong>Acelerador:</strong> Activo desde 31 instalaciones (Hogar+B2B).</p>
-                
-                <div class="img-container">
-                    <span>Política de Niveles M0-M4</span>
-                    <img src="assets/politica-staff.png" alt="Política Staff">
+            <div id="help-content-dinamico" class="help-content">
                 </div>
-
-                <div class="img-container">
-                    <span>Escala de Acelerador QTY</span>
-                    <img src="assets/acelerador.png" alt="Acelerador QTY">
-                </div>
-
-                <div class="img-container">
-                    <span>Métrica Perfil HOME</span>
-                    <img src="assets/escala-hogar.png" alt="Perfil Home">
-                </div>
-            </div>
         </details>
 
         <div id="resultados-area" class="hidden">
             <div id="grid-detalles" class="details-container"></div>
-            <div id="alert-pospago" class="info-tag hidden">⚠️ Política Staff: Calculado sobre tope de 3 Pospagos.</div>
+            <div id="alert-pospago" class="info-tag hidden">⚠️ Política Staff: Tope de 3 Pospagos aplicado.</div>
             
             <div class="total-card">
-                <span class="total-title">MONTO FINAL ESTIMADO</span>
+                <span class="total-title">MONTO ESTIMADO A CERTIFICAR</span>
                 <div id="display-total" class="total-value">Gs. 0</div>
-                <div id="display-acelerador" class="sub-value"></div>
+                <div id="display-bono" class="sub-value"></div>
             </div>
-            
-            <button onclick="location.reload()" class="btn-reload">LIMPIAR TODO</button>
+            <button onclick="location.reload()" class="btn-reload">LIMPIAR INTERFAZ</button>
         </div>
     </div>
 
