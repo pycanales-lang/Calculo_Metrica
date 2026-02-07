@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
             total += DATA.SUELDO_BASE;
             detalleHTML += `<div class="row-item" style="color:var(--azul-tigo);font-weight:bold;"><span>BÁSICO</span><strong>Gs. ${DATA.SUELDO_BASE.toLocaleString('es-PY')}</strong></div>`;
         } else {
-            const tV = {6:800000, 7:900000, 8:1000000, 9:900000, 12:1000000, 15:1200000, 16:1200000, 20:1500000, 25:1700000};
+            const tV = {7:800000, 8:900000, 9:1000000, 10:900000, 12:1200000, 15:1500000, 16:1500000, 20:1700000, 25:2000000};
             let keys = Object.keys(tV).map(Number).filter(k => k <= sumaHome).pop();
             let v = keys ? tV[keys] : 0;
             total += v;
