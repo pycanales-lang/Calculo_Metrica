@@ -57,6 +57,34 @@
                 <div id="display-bono" class="sub-value"></div>
             </div>
             <button onclick="location.reload()" class="btn-reload">LIMPIAR INTERFAZ</button>
+
+            <div id="btn-guia" class="floating-help">?</div>
+            
+            <div id="modal-guia" class="modal-overlay hidden">
+                <div class="modal-content guia-content">
+                    <div class="modal-header">
+                        <h3>GUÍA DE CÁLCULO</h3>
+                        <span id="close-guia" class="close-btn">&times;</span>
+                    </div>
+                    <div class="guia-body">
+                        <h4>1. Valores Base y Efectividad</h4>
+                        <p>El cálculo utiliza un <strong>% de Pago Promedio</strong> por canal sobre el valor del producto:</p>
+                        <ul>
+                            <li><strong>Hogar/B2B/Pospago:</strong> 65% de efectividad.</li>
+                            <li><strong>Prepago:</strong> 60% de efectividad.</li>
+                        </ul>
+            
+                        <h4>2. Sistema Acumulativo</h4>
+                        <p>Tu "Variable Promedio" es la suma de los niveles <strong>M0, M1, M2, M3 y M4</strong>.</p>
+            
+                        <h4>3. Perfil HOME (Solo Staff)</h4>
+                        <p>Al llegar a 31 instalaciones (Hogar+B2B), tus porcentajes suben y se activa el <strong>Acelerador QTY</strong> (Bono fijo extra).</p>
+                        
+                        <p><small>* Los resultados son estimaciones referenciales.</small></p>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
 
