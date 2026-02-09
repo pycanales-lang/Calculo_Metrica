@@ -79,6 +79,50 @@ input, select {
 .hidden { display: none !important; }
 .btn-reload { width:100%; background:none; border:none; color:var(--celeste-tigo); margin-top: 15px; text-decoration: underline; cursor:pointer; }
 
+/* Botón flotante Azul Tigo */
+.floating-help {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: var(--celeste-tigo);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 99;
+    border: 2px solid white;
+}
+
+.guia-content {
+    text-align: left !important;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.guia-body h4 {
+    color: var(--azul-tigo);
+    margin-top: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.guia-body ul {
+    padding-left: 20px;
+    font-size: 0.85rem;
+}
+
+.close-btn {
+    font-size: 2rem;
+    cursor: pointer;
+    float: right;
+}
+
 /* ... (todos tus estilos anteriores) ... */
 .img-container { margin-top: 15px; border-top: 1px dashed #ddd; padding-top: 10px; }
 .img-container span { display: block; font-size: 0.7rem; font-weight: bold; margin-bottom: 5px; color: var(--celeste-tigo); text-transform: uppercase; }
