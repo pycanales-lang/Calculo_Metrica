@@ -105,4 +105,16 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('display-total').innerText = "Gs. " + total.toLocaleString('es-PY');
         document.getElementById('resultados-area').classList.remove('hidden');
     };
+    // Lógica para abrir/cerrar la guía
+const btnGuia = document.getElementById('btn-guia');
+const modalGuia = document.getElementById('modal-guia');
+const closeGuia = document.getElementById('close-guia');
+
+btnGuia.onclick = () => modalGuia.classList.remove('hidden');
+closeGuia.onclick = () => modalGuia.classList.add('hidden');
+
+// Cerrar si hace clic fuera del contenido
+window.onclick = (event) => {
+    if (event.target == modalGuia) modalGuia.classList.add('hidden');
+}
 });
